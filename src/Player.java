@@ -1,6 +1,16 @@
-public class Player {
-    int position = 0;
+import java.util.Vector;
 
+public class Player {
+    boolean isturn = false;
+    char playersymbol;
+
+    Vector2 position = new Vector2();
+
+    // Inventory for cards
+    Vector inventory = new Vector(5);
+
+
+    // Rolls dice for player
     public int roll(int n) {
         int sum = 0;
 
