@@ -13,7 +13,7 @@ func _get_next_tiles(previous : Vector2, current : Vector2):
 	# Iterates through the 4 directions, checking for the tile moved from and if the space is empty
 	for dir in directions:
 		if current - dir != previous && get_cell(current.x - dir.x, current.y - dir.y) != INVALID_CELL:
-			if path.has(current - dir):
+			if !path.has(current - dir):
 				next_tiles.append(current - dir)
 	
 	
