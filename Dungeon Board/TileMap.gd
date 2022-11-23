@@ -11,7 +11,7 @@ func _get_next_tiles(previous : Vector2, current : Vector2):
 	
 	# Iterates through the 4 directions, checking for the tile moved from and if the space is empty
 	for dir in Global.directions:
-		if current - dir != previous && get_cellv(current - dir) != INVALID_CELL:
+		if current - dir != previous && get_cell(current.x - dir.x, current.y - dir.y) != INVALID_CELL:
 			if !path.has(current - dir):
 				next_tiles.append(current - dir)
 	
@@ -27,7 +27,7 @@ func _get_path(previous : Vector2 = Vector2(0, 0), current : Vector2 = Vector2(0
 	var next_tiles = []
 	
 	# Repeats until the end is found or more than one direction is found
-	while(get_cellv(path[path.size() - 1]) != 2 || next_tiles.size() > 1):
+	while(get_cell(path[path.size() - 1].x, path[path.size() - 1].y) != 2 || next_tiles.size() > 1):
 		next_tiles = _get_next_tiles(previous, current)
 		
 		# If there are multiple pats, runs itself for each direction
