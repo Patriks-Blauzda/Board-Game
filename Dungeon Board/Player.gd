@@ -1,5 +1,10 @@
 extends Sprite
 
+export var atk = 4
+export var def = 2
+export var eva = 2
+export var hp = 10
+
 onready var tilemap = get_owner().get_node("TileMap")
 
 var previous_index = 0
@@ -59,7 +64,20 @@ func move():
 		print(tile_index)
 
 
-func _process(_delta):
+# Rolls 6 sided die specified amount of times, returns sum
+func roll(times : int):
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	
+	var sum = 0
+	
+	for n in times:
+		sum += rng.randi_range(1, 6)
+	
+	return sum
+
+
+func _physics_process(_delta):
 	# Temporary label for debugging
 	get_parent().get_node("Label").text = "Q to add movement points\nMP: " + str(movement_points)
 	

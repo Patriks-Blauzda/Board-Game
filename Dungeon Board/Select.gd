@@ -1,7 +1,7 @@
 extends Sprite
 
 onready var player = get_parent()
-onready var tilemap = get_owner().get_node("TileMap")
+onready var tilemap = get_parent().get_owner().get_node("TileMap")
 
 
 # Highlights moused over tile, otherwise not visible
