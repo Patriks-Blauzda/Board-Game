@@ -49,14 +49,3 @@ func _get_path(previous : Vector2 = Vector2(0, 0), current : Vector2 = Vector2(0
 
 func _ready():
 	_get_path()
-	print(path)
-
-
-# Draws path with a line (for debugging)
-func _draw():
-	var color = Color(0, 0, 0, 1)
-	var offset = Vector2(-11, 1)
-	
-	for i in range(path.size()):
-		if i < path.size() - 1 && path[i].distance_to(path[i + 1]) <= 2:
-			draw_line(map_to_world(path[i] + offset), map_to_world(path[i+1] + offset), color)

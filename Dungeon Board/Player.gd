@@ -14,6 +14,7 @@ var movement_points = 0
 
 func _ready():
 	position = tilemap.map_to_world(tilemap.path[tile_index])
+	OS.center_window()
 
 
 # Updates the player's target position
@@ -61,7 +62,7 @@ func move():
 	# As long as the player has moved, takes away one movement point
 	if tile_index != previous_index:
 		movement_points -= 1
-		print(tile_index)
+
 
 
 # Rolls 6 sided die specified amount of times, returns sum
