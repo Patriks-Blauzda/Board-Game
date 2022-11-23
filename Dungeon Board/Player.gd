@@ -6,11 +6,17 @@ export var eva = 2
 export var hp = 10
 
 onready var tilemap = get_owner().get_node("TileMap")
+onready var camera = get_owner().get_node("Camera2D")
+
+var rng = RandomNumberGenerator.new()
 
 var previous_index = 0
 var tile_index = 0
 
 var movement_points = 0
+
+var rolling = 0
+
 
 func _ready():
 	position = tilemap.map_to_world(tilemap.path[tile_index])
@@ -33,7 +39,7 @@ func move():
 	
 	# If there are more than one possible tiles to move to, the player is prompted
 	if next_indexes.size() > 1:
-		get_parent().get_node("Label").text += "\nSelect direction (Arrow keys/WASD) or click the nearby tile"
+		$SelectionVisual.show()
 		
 		previous_index = tile_index
 		
@@ -67,7 +73,6 @@ func move():
 
 # Rolls 6 sided die specified amount of times, returns sum
 func roll(times : int):
-	var rng = RandomNumberGenerator.new()
 	rng.randomize()
 	
 	var sum = 0
@@ -79,17 +84,18 @@ func roll(times : int):
 
 
 func _physics_process(_delta):
-	# Temporary label for debugging
-	get_parent().get_node("Label").text = "Q to add movement points\nMP: " + str(movement_points)
+	$SelectionVisual.hide()
 	
-	if Input.is_key_pressed(KEY_Q):
-		movement_points += 1
+	$Anchor/TextureRect/Label.text = "MP: " + str(movement_points)
+	
 	
 	# Will be updated when other parts of the game are done
-	if movement_points > 0 && position == tilemap.map_to_world(tilemap.path[tile_index]):
+	if movement_points > 0 && position == tilemap.map_to_world(tilemap.path[tile_index]) && rolling == 0:
 		move()
-	
-	
+		
+		if Global.enemies.has(tilemap.get_cellv(tilemap.path[tile_index])):
+			movement_points = 0
+		
 	# Animates the player moving from one tile to another
 	elif position != tilemap.map_to_world(tilemap.path[tile_index]):
 		var target = tilemap.map_to_world(tilemap.path[tile_index])
@@ -105,3 +111,18 @@ func _physics_process(_delta):
 			position = target
 			$Tween.stop_all()
 	
+	elif rolling != 0:
+		if rolling > 40:
+			rng.randomize()
+			$Anchor/Sprite.frame_coords = Vector2(rng.randi_range(0, 2), rng.randi_range(0, 1))
+		
+		rolling -= 1
+		
+		if rolling == 40:
+			movement_points += $Anchor/Sprite.frame + 1
+		
+
+
+func _on_RollButton_pressed():
+	if movement_points == 0:
+		rolling = 80
