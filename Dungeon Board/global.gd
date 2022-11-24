@@ -5,7 +5,5 @@ extends Node
 # The directions the player can move in (right, left, up, down)
 const directions : Array = [Vector2(1, 0), Vector2(-1, 0), Vector2(0, -1), Vector2(0, 1)]
 
-const enemies : Array = [1, 2]
-
 var turn = 0
 var current_floor = 0
