@@ -103,7 +103,7 @@ func _physics_process(_delta):
 	elif rolling != 0:
 		if rolling > 40:
 			rng.randomize()
-			$Anchor/Sprite.frame_coords = Vector2(rng.randi_range(0, 2), rng.randi_range(0, 1))
+			$Anchor/Sprite.frame = Global.roll() - 1
 		
 		rolling -= 1
 		

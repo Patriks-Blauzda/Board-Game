@@ -5,7 +5,7 @@ onready var combat = get_owner()
 var idle = true
 
 var hp = 10
-var dmg = 2
+var dmg = 10
 var def = 2
 var eva = 2
 var initiative = 0
@@ -16,15 +16,18 @@ var moused_over = -1
 
 
 func _on_TextureButton_pressed():
-	action = combat.action.ATTACK
+	if target != null:
+		action = combat.action.ATTACK
 
 
 func _physics_process(_delta):
 	for i in range(1, 4):
 		combat.get_node("Enemy" + str(i)).self_modulate = Color(1, 1, 1)
+		combat.get_node("Enemy" + str(i) + "/Health").hide()
 		
 		if i == moused_over:
 			combat.get_node("Enemy" + str(i)).self_modulate = Color(0.921569, 1, 0)
+			combat.get_node("Enemy" + str(i) + "/Health").show()
 	
 	if target != null:
 		target.self_modulate = Color(0.109804, 1, 0.219608)

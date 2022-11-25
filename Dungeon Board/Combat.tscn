@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://TileSet.png" type="Texture" id=1]
 [ext_resource path="res://LucidaSans-Bold.otf" type="DynamicFontData" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://Enemy1.gd" type="Script" id=5]
 [ext_resource path="res://Enemy2.gd" type="Script" id=6]
 [ext_resource path="res://Enemy3.gd" type="Script" id=7]
-[ext_resource path="res://maintheme.tres" type="Theme" id=8]
 
 [sub_resource type="Animation" id=14]
 resource_name = "Attack1"
@@ -48,18 +47,6 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 2, 3, 2 ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath("Sprite:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.6 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
 
 [sub_resource type="Animation" id=17]
 resource_name = "Attack2"
@@ -83,7 +70,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3, 1 ),
+"times": PoolRealArray( 0, 0.5, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 0 ]
@@ -123,7 +110,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3, 1 ),
+"times": PoolRealArray( 0, 0.5, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 0 ]
@@ -162,10 +149,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5, 0.6, 0.8 ),
+"times": PoolRealArray( 0, 0.5, 0.6, 1 ),
 "transitions": PoolRealArray( 1e-05, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 230, 275 ), Vector2( 230, 275 ), Vector2( 206, 266 ), Vector2( 230, 275 ) ]
+"values": [ Vector2( 230, 275 ), Vector2( 230, 275 ), Vector2( 206, 275 ), Vector2( 230, 275 ) ]
 }
 
 [sub_resource type="Animation" id=21]
@@ -263,18 +250,6 @@ tracks/3/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
-tracks/4/type = "value"
-tracks/4/path = NodePath("Sprite:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ false ]
-}
 
 [sub_resource type="Animation" id=22]
 resource_name = "TakeDamage"
@@ -302,10 +277,6 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0.364706, 0.364706, 1 ), Color( 1, 1, 1, 1 ) ]
 }
-
-[sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 1 )
-region = Rect2( 280, 184, 14, 12 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
@@ -349,6 +320,33 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ 2, 4, 2 ]
+}
+
+[sub_resource type="Animation" id=31]
+resource_name = "Defend"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 0.6, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 800, 245 ), Vector2( 800, 245 ), Vector2( 830, 245 ), Vector2( 800, 245 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 0 ]
 }
 
 [sub_resource type="Animation" id=27]
@@ -477,6 +475,22 @@ tracks/1/keys = {
 [sub_resource type="RectangleShape2D" id=30]
 extents = Vector2( 7.80002, 12.1 )
 
+[sub_resource type="AtlasTexture" id=35]
+atlas = ExtResource( 1 )
+region = Rect2( 305, 203, 66, 20 )
+
+[sub_resource type="DynamicFont" id=40]
+size = 26
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_top = 1
+extra_spacing_bottom = 1
+extra_spacing_char = 1
+extra_spacing_space = 1
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=41]
+default_font = SubResource( 40 )
+
 [sub_resource type="Animation" id=16]
 resource_name = "Attack"
 length = 1.3
@@ -515,6 +529,33 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ 1, 4, 1 ]
+}
+
+[sub_resource type="Animation" id=32]
+resource_name = "Defend"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 0.6, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 720, 150 ), Vector2( 720, 150 ), Vector2( 750, 150 ), Vector2( 720, 150 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 0 ]
 }
 
 [sub_resource type="Animation" id=28]
@@ -680,6 +721,33 @@ tracks/2/keys = {
 "values": [ 3, 4, 3 ]
 }
 
+[sub_resource type="Animation" id=33]
+resource_name = "Defend"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 0.6, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 880, 340 ), Vector2( 880, 340 ), Vector2( 910, 340 ), Vector2( 880, 340 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 0 ]
+}
+
 [sub_resource type="Animation" id=29]
 resource_name = "Evade"
 length = 1.2
@@ -822,6 +890,32 @@ default_font = SubResource( 5 )
 atlas = ExtResource( 1 )
 region = Rect2( 121, 176, 57, 38 )
 
+[sub_resource type="DynamicFont" id=36]
+extra_spacing_top = 1
+extra_spacing_bottom = 1
+extra_spacing_char = 1
+extra_spacing_space = 1
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=37]
+default_font = SubResource( 36 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = ExtResource( 1 )
+region = Rect2( 213, 177, 64, 74 )
+
+[sub_resource type="DynamicFont" id=38]
+size = 18
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_top = 1
+extra_spacing_bottom = 1
+extra_spacing_char = 1
+extra_spacing_space = 1
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=39]
+default_font = SubResource( 38 )
+
 [node name="Combat" type="Node2D"]
 script = ExtResource( 3 )
 
@@ -845,11 +939,26 @@ anims/Idle = SubResource( 1 )
 anims/RESET = SubResource( 2 )
 anims/TakeDamage = SubResource( 22 )
 
-[node name="Sprite" type="Sprite" parent="Player"]
-visible = false
-position = Vector2( 21.5, -2.75 )
-z_index = 5
-texture = SubResource( 23 )
+[node name="Corpse1" type="Sprite" parent="."]
+position = Vector2( 833, 237 )
+scale = Vector2( 5, 5 )
+texture = SubResource( 3 )
+hframes = 4
+frame = 3
+
+[node name="Corpse2" type="Sprite" parent="."]
+position = Vector2( 753, 145 )
+scale = Vector2( 5, 5 )
+texture = SubResource( 3 )
+hframes = 4
+frame = 3
+
+[node name="Corpse3" type="Sprite" parent="."]
+position = Vector2( 919, 338 )
+scale = Vector2( 5, 5 )
+texture = SubResource( 3 )
+hframes = 4
+frame = 3
 
 [node name="Enemy1" type="Sprite" parent="."]
 position = Vector2( 800, 245 )
@@ -862,6 +971,7 @@ script = ExtResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Enemy1"]
 anims/Attack = SubResource( 15 )
+anims/Defend = SubResource( 31 )
 anims/Evade = SubResource( 27 )
 anims/Idle = SubResource( 8 )
 anims/RESET = SubResource( 9 )
@@ -874,6 +984,30 @@ position = Vector2( 9.00002, 6 )
 scale = Vector2( 1, 1 )
 shape = SubResource( 30 )
 
+[node name="Health" type="TextureRect" parent="Enemy1"]
+margin_left = -4.79999
+margin_top = -20.4
+margin_right = 131.2
+margin_bottom = 37.6
+rect_scale = Vector2( 0.2, 0.2 )
+texture = SubResource( 35 )
+expand = true
+stretch_mode = 5
+
+[node name="Hp" type="Label" parent="Enemy1/Health"]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.588235
+anchor_top = 0.0344822
+anchor_right = 0.886742
+anchor_bottom = 0.775223
+theme = SubResource( 41 )
+text = "10"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
 [node name="Enemy2" type="Sprite" parent="."]
 position = Vector2( 720, 150 )
 scale = Vector2( 5, 5 )
@@ -885,6 +1019,7 @@ script = ExtResource( 6 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Enemy2"]
 anims/Attack = SubResource( 16 )
+anims/Defend = SubResource( 32 )
 anims/Evade = SubResource( 28 )
 anims/Idle = SubResource( 10 )
 anims/RESET = SubResource( 11 )
@@ -895,6 +1030,30 @@ anims/TakeDamage = SubResource( 25 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2/Area2D"]
 position = Vector2( 8.70001, 5.9 )
 shape = SubResource( 30 )
+
+[node name="Health" type="TextureRect" parent="Enemy2"]
+margin_left = -4.79999
+margin_top = -20.4
+margin_right = 131.2
+margin_bottom = 37.6
+rect_scale = Vector2( 0.2, 0.2 )
+texture = SubResource( 35 )
+expand = true
+stretch_mode = 5
+
+[node name="Hp" type="Label" parent="Enemy2/Health"]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.588235
+anchor_top = 0.0344822
+anchor_right = 0.886742
+anchor_bottom = 0.775223
+theme = SubResource( 41 )
+text = "10"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Enemy3" type="Sprite" parent="."]
 position = Vector2( 880, 340 )
@@ -907,6 +1066,7 @@ script = ExtResource( 7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Enemy3"]
 anims/Attack = SubResource( 19 )
+anims/Defend = SubResource( 33 )
 anims/Evade = SubResource( 29 )
 anims/Idle = SubResource( 12 )
 anims/RESET = SubResource( 13 )
@@ -918,6 +1078,30 @@ anims/TakeDamage = SubResource( 26 )
 position = Vector2( 9.70003, 6.3 )
 shape = SubResource( 30 )
 
+[node name="Health" type="TextureRect" parent="Enemy3"]
+margin_left = -4.79999
+margin_top = -20.4
+margin_right = 131.2
+margin_bottom = 37.6
+rect_scale = Vector2( 0.2, 0.2 )
+texture = SubResource( 35 )
+expand = true
+stretch_mode = 5
+
+[node name="Hp" type="Label" parent="Enemy3/Health"]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.588235
+anchor_top = 0.0344822
+anchor_right = 0.886742
+anchor_bottom = 0.775223
+theme = SubResource( 41 )
+text = "10"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
 [node name="TextureButton" type="TextureButton" parent="."]
 margin_left = 418.0
 margin_top = 391.0
@@ -925,6 +1109,9 @@ margin_right = 624.0
 margin_bottom = 446.0
 texture_normal = SubResource( 4 )
 expand = true
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Label" type="Label" parent="TextureButton"]
 self_modulate = Color( 0, 0, 0, 1 )
@@ -941,15 +1128,64 @@ scale = Vector2( 3, 3 )
 texture = SubResource( 7 )
 hframes = 3
 vframes = 2
-frame = 5
 
 [node name="Turn" type="Label" parent="."]
 margin_left = 424.0
 margin_top = 15.0
 margin_right = 612.0
 margin_bottom = 49.0
-theme = ExtResource( 8 )
+theme = SubResource( 37 )
 text = "Your Turn"
+align = 1
+valign = 1
+
+[node name="PlayerStats" type="TextureRect" parent="."]
+margin_left = 15.0
+margin_top = 12.0
+margin_right = 120.0
+margin_bottom = 133.0
+texture = SubResource( 34 )
+expand = true
+stretch_mode = 5
+
+[node name="Atk" type="Label" parent="PlayerStats"]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.561905
+anchor_top = 0.0991736
+anchor_right = 0.942857
+anchor_bottom = 0.305785
+theme = SubResource( 39 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Def" type="Label" parent="PlayerStats"]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.561905
+anchor_top = 0.380165
+anchor_right = 0.942857
+anchor_bottom = 0.586777
+theme = SubResource( 39 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Eva" type="Label" parent="PlayerStats"]
+self_modulate = Color( 0, 0, 0, 1 )
+margin_left = 59.0
+margin_top = 86.0
+margin_right = 99.0
+margin_bottom = 111.0
+theme = SubResource( 39 )
+text = "0"
+align = 1
+valign = 1
 
 [connection signal="animation_finished" from="Player/AnimationPlayer" to="Player" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_finished" from="Enemy1/AnimationPlayer" to="Enemy1" method="_on_AnimationPlayer_animation_finished"]

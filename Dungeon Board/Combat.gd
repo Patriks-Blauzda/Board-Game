@@ -4,6 +4,7 @@ var enemycount = 1
 
 
 enum action {
+	SKIP = -1
 	DEFEND = 0
 	EVADE = 1
 	ATTACK = 2
@@ -23,14 +24,16 @@ func attack(attacker: Node, target: Node):
 	
 	
 	match target.action:
+		action.SKIP:
+			target.hp -= dmg
+			
+			target.get_node("AnimationPlayer").play("TakeDamage")
+			
 		action.DEFEND:
 			var def = target.def + Global.roll()
 			
-			if dmg <= def:
-				target.hp -= 1
-			else:
-				target.hp -= (dmg - def)
-		
+			target.hp -= clamp((dmg - def), 1, 999)
+			
 			target.get_node("AnimationPlayer").play("Defend")
 		
 		action.EVADE:
@@ -41,3 +44,5 @@ func attack(attacker: Node, target: Node):
 				target.get_node("AnimationPlayer").play("TakeDamage")
 			else:
 				target.get_node("AnimationPlayer").play("Evade")
+
+
