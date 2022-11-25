@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://TileSet.png" type="Texture" id=1]
 [ext_resource path="res://LucidaSans-Bold.otf" type="DynamicFontData" id=2]
@@ -277,6 +277,10 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0.364706, 0.364706, 1 ), Color( 1, 1, 1, 1 ) ]
 }
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 1 )
+region = Rect2( 121, 176, 57, 38 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
@@ -873,22 +877,7 @@ tracks/1/keys = {
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 1 )
-region = Rect2( 15, 223, 95, 20 )
-
-[sub_resource type="DynamicFont" id=5]
-size = 26
-extra_spacing_top = 1
-extra_spacing_bottom = 1
-extra_spacing_char = 1
-extra_spacing_space = 1
-font_data = ExtResource( 2 )
-
-[sub_resource type="Theme" id=6]
-default_font = SubResource( 5 )
-
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 1 )
-region = Rect2( 121, 176, 57, 38 )
+region = Rect2( 452, 230, 66, 20 )
 
 [sub_resource type="DynamicFont" id=36]
 extra_spacing_top = 1
@@ -938,6 +927,14 @@ anims/Evade = SubResource( 21 )
 anims/Idle = SubResource( 1 )
 anims/RESET = SubResource( 2 )
 anims/TakeDamage = SubResource( 22 )
+
+[node name="Dice" type="Sprite" parent="Player"]
+position = Vector2( 19, -4 )
+scale = Vector2( 0.75, 0.75 )
+texture = SubResource( 7 )
+hframes = 3
+vframes = 2
+frame = 5
 
 [node name="Corpse1" type="Sprite" parent="."]
 position = Vector2( 833, 237 )
@@ -1008,6 +1005,14 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[node name="Dice" type="Sprite" parent="Enemy1"]
+position = Vector2( -10.5, 8.2 )
+scale = Vector2( 0.75, 0.75 )
+texture = SubResource( 7 )
+hframes = 3
+vframes = 2
+frame = 5
+
 [node name="Enemy2" type="Sprite" parent="."]
 position = Vector2( 720, 150 )
 scale = Vector2( 5, 5 )
@@ -1054,6 +1059,14 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": true
 }
+
+[node name="Dice" type="Sprite" parent="Enemy2"]
+position = Vector2( -10.5, 8.2 )
+scale = Vector2( 0.75, 0.75 )
+texture = SubResource( 7 )
+hframes = 3
+vframes = 2
+frame = 5
 
 [node name="Enemy3" type="Sprite" parent="."]
 position = Vector2( 880, 340 )
@@ -1102,33 +1115,25 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="TextureButton" type="TextureButton" parent="."]
-margin_left = 418.0
-margin_top = 391.0
-margin_right = 624.0
-margin_bottom = 446.0
-texture_normal = SubResource( 4 )
-expand = true
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Label" type="Label" parent="TextureButton"]
-self_modulate = Color( 0, 0, 0, 1 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme = SubResource( 6 )
-text = "Attack"
-align = 1
-valign = 1
-
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 519, 341 )
-scale = Vector2( 3, 3 )
+[node name="Dice" type="Sprite" parent="Enemy3"]
+position = Vector2( -10.5, 8.2 )
+scale = Vector2( 0.75, 0.75 )
 texture = SubResource( 7 )
 hframes = 3
 vframes = 2
 frame = 5
+
+[node name="TextureButton" type="TextureButton" parent="."]
+margin_left = 418.0
+margin_top = 391.0
+margin_right = 591.0
+margin_bottom = 442.0
+texture_normal = SubResource( 4 )
+expand = true
+stretch_mode = 4
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Turn" type="Label" parent="."]
 margin_left = 424.0
@@ -1178,6 +1183,76 @@ __meta__ = {
 }
 
 [node name="Eva" type="Label" parent="PlayerStats"]
+self_modulate = Color( 0, 0, 0, 1 )
+margin_left = 59.0
+margin_top = 86.0
+margin_right = 99.0
+margin_bottom = 111.0
+theme = SubResource( 39 )
+text = "0"
+align = 1
+valign = 1
+
+[node name="Health" type="TextureRect" parent="PlayerStats"]
+margin_top = 131.0
+margin_right = 136.0
+margin_bottom = 189.0
+texture = SubResource( 35 )
+expand = true
+stretch_mode = 5
+
+[node name="Hp" type="Label" parent="PlayerStats/Health"]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.588235
+anchor_top = 0.0344822
+anchor_right = 0.886742
+anchor_bottom = 0.775223
+theme = SubResource( 41 )
+text = "10"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="EnemyStats" type="TextureRect" parent="."]
+margin_left = 904.0
+margin_top = 12.0
+margin_right = 1009.0
+margin_bottom = 133.0
+texture = SubResource( 34 )
+expand = true
+stretch_mode = 5
+
+[node name="Atk" type="Label" parent="EnemyStats"]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.561905
+anchor_top = 0.0991736
+anchor_right = 0.942857
+anchor_bottom = 0.305785
+theme = SubResource( 39 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Def" type="Label" parent="EnemyStats"]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.561905
+anchor_top = 0.380165
+anchor_right = 0.942857
+anchor_bottom = 0.586777
+theme = SubResource( 39 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Eva" type="Label" parent="EnemyStats"]
 self_modulate = Color( 0, 0, 0, 1 )
 margin_left = 59.0
 margin_top = 86.0

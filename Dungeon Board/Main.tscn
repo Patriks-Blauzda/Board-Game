@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Enemy.tscn" type="PackedScene" id=2]
 [ext_resource path="res://maintheme.tres" type="Theme" id=3]
+[ext_resource path="res://Combat.tscn" type="PackedScene" id=4]
 [ext_resource path="res://TileMap.gd" type="Script" id=5]
 [ext_resource path="res://TileSet.png" type="Texture" id=6]
 
@@ -63,7 +64,7 @@
 3/shape_one_way_margin = 0.0
 3/shapes = [  ]
 3/z_index = 0
-4/name = "TileSet.png 4"
+4/name = "Start"
 4/texture = ExtResource( 6 )
 4/tex_offset = Vector2( 0, 0 )
 4/modulate = Color( 1, 1, 1, 1 )
@@ -78,6 +79,18 @@
 4/shapes = [  ]
 4/z_index = 0
 
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 6 )
+region = Rect2( 14, 175, 66, 20 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 6 )
+region = Rect2( 121, 176, 57, 38 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 6 )
+region = Rect2( 15, 223, 95, 20 )
+
 [node name="Main" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -86,24 +99,63 @@ tile_set = SubResource( 1 )
 cell_size = Vector2( 64, 32 )
 cell_tile_origin = 1
 format = 1
-tile_data = PoolIntArray( -458753, 0, 0, -524288, 0, 0, -524287, 0, 0, -524286, 0, 0, -524285, 0, 0, -524284, 0, 0, -524283, 0, 0, -524282, 0, 0, -524281, 0, 0, -524280, 0, 0, -524279, 0, 0, -393217, 0, 0, -458748, 0, 0, -458743, 0, 0, -327681, 0, 0, -393215, 0, 0, -393214, 0, 0, -393213, 0, 0, -393212, 0, 0, -393211, 0, 0, -393210, 0, 0, -393207, 0, 0, -262145, 0, 0, -327679, 0, 0, -327674, 0, 0, -327673, 0, 0, -327672, 0, 0, -327671, 0, 0, -196609, 0, 0, -262144, 0, 0, -262143, 0, 0, -262141, 0, 0, -262140, 0, 0, -262138, 0, 0, -196607, 0, 0, -196604, 0, 0, -196602, 0, 0, -196601, 0, 0, -196600, 0, 0, -196599, 0, 0, -65537, 0, 0, -131072, 0, 0, -131071, 0, 0, -131070, 0, 0, -131068, 0, 0, -131067, 0, 0, -131066, 0, 0, -131063, 0, 0, -1, 0, 0, -65532, 0, 0, -65527, 0, 0, 65535, 0, 0, 0, 4, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0 )
+tile_data = PoolIntArray( -458753, 0, 0, -524288, 0, 0, -524287, 0, 0, -524286, 0, 0, -524285, 0, 0, -524284, 0, 0, -524283, 0, 0, -524282, 0, 0, -524281, 0, 0, -524280, 0, 0, -524279, 0, 0, -393217, 0, 0, -458748, 0, 0, -458743, 0, 0, -327681, 0, 0, -393215, 0, 0, -393214, 0, 0, -393213, 0, 0, -393212, 0, 0, -393211, 0, 0, -393210, 0, 0, -393207, 0, 0, -262145, 0, 0, -327679, 0, 0, -327674, 0, 0, -327673, 0, 0, -327672, 0, 0, -327671, 0, 0, -196609, 0, 0, -262144, 0, 0, -262143, 0, 0, -262141, 0, 0, -262140, 0, 0, -262138, 0, 0, -196607, 0, 0, -196604, 0, 0, -196602, 0, 0, -196601, 0, 0, -196600, 0, 0, -196599, 0, 0, -65537, 0, 0, -131072, 0, 0, -131071, 0, 0, -131070, 0, 0, -131068, 0, 0, -131067, 0, 0, -131066, 0, 0, -131063, 0, 0, -1, 0, 0, -65532, 0, 0, -65527, 0, 0, 65535, 0, 0, 0, 4, 0, 1, 0, 0, 2, 1, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0 )
 script = ExtResource( 5 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 hframes = 4
 region_rect = Rect2( 15, 92, 153, 31 )
 
+[node name="Anchor" type="Node" parent="Player"]
+
+[node name="RollButton" type="TextureButton" parent="Player/Anchor"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 530.0
+margin_top = 198.0
+margin_right = 561.0
+margin_bottom = 188.0
+rect_scale = Vector2( 3, 3 )
+texture_normal = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="Player/Anchor"]
+position = Vector2( 633, 155 )
+scale = Vector2( 3, 3 )
+texture = SubResource( 3 )
+hframes = 3
+vframes = 2
+frame = 5
+
+[node name="TextureRect" type="TextureRect" parent="Player/Anchor"]
+margin_left = 582.0
+margin_top = 69.0
+margin_right = 681.0
+margin_bottom = 110.0
+texture = SubResource( 4 )
+stretch_mode = 1
+
+[node name="Label" type="Label" parent="Player/Anchor/TextureRect"]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.0808081
+anchor_top = 0.0487805
+anchor_right = 0.919192
+anchor_bottom = 0.951219
+theme = ExtResource( 3 )
+text = "A"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 68, -1 )
 offset = Vector2( 200, 0 )
 current = true
 
-[node name="Label" type="Label" parent="."]
-margin_left = -222.0
-margin_top = 59.0
-margin_right = 44.0
-margin_bottom = 152.0
-theme = ExtResource( 3 )
-text = "abcde"
-
 [node name="Enemy" parent="." instance=ExtResource( 2 )]
+
+[node name="Combat" parent="." instance=ExtResource( 4 )]
+position = Vector2( 0, 300 )
+
+[connection signal="pressed" from="Player/Anchor/RollButton" to="Player" method="_on_RollButton_pressed"]
