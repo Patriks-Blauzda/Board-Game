@@ -11,5 +11,5 @@ var initiative = 0
 var action = 0
 
 
-func _on_AnimationPlayer_animation_finished(anim_name):
+func _on_AnimationPlayer_animation_finished(_anim_name):
 	idle = true

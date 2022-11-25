@@ -41,17 +41,17 @@ func _physics_process(_delta):
 
 
 func _on_Area2D_input_event(_viewport, event, _shape_idx, extra_arg_0):
+	if event is InputEventMouseMotion:
+		moused_over = extra_arg_0
+	
 	if event is InputEventMouseButton:
 		if !event.pressed && event.button_index == 1:
 			target = combat.get_node("Enemy" + str(extra_arg_0))
 
 
-func _on_AnimationPlayer_animation_finished(anim_name):
+func _on_AnimationPlayer_animation_finished(_anim_name):
 	idle = true
 
-
-func _on_Area2D_mouse_entered(extra_arg_0):
-	moused_over = extra_arg_0
 
 func _on_Area2D_mouse_exited():
 	moused_over = -1
