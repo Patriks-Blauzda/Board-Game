@@ -6,7 +6,7 @@
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
-region = Rect2( 372, 174, 45, 28 )
+region = Rect2( 397, 171, 45, 28 )
 
 [node name="Player" type="Sprite"]
 z_index = 2
