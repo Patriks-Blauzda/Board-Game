@@ -1,7 +1,7 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Enemy.tscn" type="PackedScene" id=2]
+[ext_resource path="res://LucidaSans-Bold.otf" type="DynamicFontData" id=2]
 [ext_resource path="res://maintheme.tres" type="Theme" id=3]
 [ext_resource path="res://Combat.tscn" type="PackedScene" id=4]
 [ext_resource path="res://TileMap.gd" type="Script" id=5]
@@ -78,6 +78,40 @@
 4/shape_one_way_margin = 0.0
 4/shapes = [  ]
 4/z_index = 0
+5/name = "SpikeTrap"
+5/texture = ExtResource( 6 )
+5/tex_offset = Vector2( 0, 0 )
+5/modulate = Color( 1, 1, 1, 1 )
+5/region = Rect2( 272, 0, 65, 40 )
+5/tile_mode = 0
+5/occluder_offset = Vector2( 0, 0 )
+5/navigation_offset = Vector2( 0, 0 )
+5/shape_offset = Vector2( 0, 0 )
+5/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+5/shape_one_way = false
+5/shape_one_way_margin = 0.0
+5/shapes = [  ]
+5/z_index = 0
+6/name = "Portal"
+6/texture = ExtResource( 6 )
+6/tex_offset = Vector2( 0, -17 )
+6/modulate = Color( 1, 1, 1, 1 )
+6/region = Rect2( 358, 10, 65, 57 )
+6/tile_mode = 0
+6/occluder_offset = Vector2( 0, 0 )
+6/navigation_offset = Vector2( 0, 0 )
+6/shape_offset = Vector2( 0, 0 )
+6/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+6/shape_one_way = false
+6/shape_one_way_margin = 1.0
+6/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": null,
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+6/z_index = 0
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 6 )
@@ -91,6 +125,68 @@ region = Rect2( 121, 176, 57, 38 )
 atlas = ExtResource( 6 )
 region = Rect2( 15, 223, 95, 20 )
 
+[sub_resource type="AtlasTexture" id=41]
+atlas = ExtResource( 6 )
+region = Rect2( 213, 177, 64, 74 )
+
+[sub_resource type="DynamicFont" id=38]
+size = 18
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_top = 1
+extra_spacing_bottom = 1
+extra_spacing_char = 1
+extra_spacing_space = 1
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=42]
+default_font = SubResource( 38 )
+
+[sub_resource type="AtlasTexture" id=43]
+atlas = ExtResource( 6 )
+region = Rect2( 305, 203, 66, 20 )
+
+[sub_resource type="DynamicFont" id=40]
+size = 26
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_top = 1
+extra_spacing_bottom = 1
+extra_spacing_char = 1
+extra_spacing_space = 1
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=44]
+default_font = SubResource( 40 )
+
+[sub_resource type="Animation" id=5]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 68, 0 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "Transition"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 0.7, 0.7, 0.7 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -592.654 ), Vector2( 0, -1200 ) ]
+}
+
 [node name="Main" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -99,7 +195,7 @@ tile_set = SubResource( 1 )
 cell_size = Vector2( 64, 32 )
 cell_tile_origin = 1
 format = 1
-tile_data = PoolIntArray( -458753, 0, 0, -524288, 0, 0, -524287, 0, 0, -524286, 0, 0, -524285, 0, 0, -524284, 0, 0, -524283, 0, 0, -524282, 0, 0, -524281, 0, 0, -524280, 0, 0, -524279, 0, 0, -393217, 0, 0, -458748, 0, 0, -458743, 0, 0, -327681, 0, 0, -393215, 0, 0, -393214, 0, 0, -393213, 0, 0, -393212, 0, 0, -393211, 0, 0, -393210, 0, 0, -393207, 0, 0, -262145, 0, 0, -327679, 0, 0, -327674, 0, 0, -327673, 0, 0, -327672, 0, 0, -327671, 0, 0, -196609, 0, 0, -262144, 0, 0, -262143, 0, 0, -262141, 0, 0, -262140, 0, 0, -262138, 0, 0, -196607, 0, 0, -196604, 0, 0, -196602, 0, 0, -196601, 0, 0, -196600, 0, 0, -196599, 0, 0, -65537, 0, 0, -131072, 0, 0, -131071, 0, 0, -131070, 0, 0, -131068, 0, 0, -131067, 0, 0, -131066, 0, 0, -131063, 0, 0, -1, 0, 0, -65532, 0, 0, -65527, 0, 0, 65535, 0, 0, 0, 4, 0, 1, 0, 0, 2, 1, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0 )
+tile_data = PoolIntArray( -458753, 0, 0, -524288, 0, 0, -524287, 0, 0, -524286, 0, 0, -524285, 0, 0, -524284, 0, 0, -524283, 0, 0, -524282, 0, 0, -524281, 0, 0, -524280, 0, 0, -524279, 0, 0, -393217, 0, 0, -458748, 0, 0, -458743, 0, 0, -327681, 0, 0, -393215, 0, 0, -393214, 0, 0, -393213, 0, 0, -393212, 0, 0, -393211, 0, 0, -393210, 0, 0, -393207, 0, 0, -262145, 0, 0, -327679, 0, 0, -327674, 0, 0, -327673, 0, 0, -327672, 0, 0, -327671, 0, 0, -196609, 0, 0, -262144, 0, 0, -262143, 0, 0, -262141, 0, 0, -262140, 0, 0, -262138, 0, 0, -262135, 6, 0, -196607, 0, 0, -196604, 0, 0, -196602, 0, 0, -196601, 0, 0, -196600, 0, 0, -196599, 0, 0, -65537, 0, 0, -131072, 0, 0, -131071, 0, 0, -131070, 6, 0, -131068, 0, 0, -131067, 0, 0, -131066, 0, 0, -131063, 0, 0, -1, 5, 0, -65532, 0, 0, -65527, 0, 0, 65535, 0, 0, 0, 4, 0, 1, 0, 0, 2, 1, 0, 3, 1, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0 )
 script = ExtResource( 5 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
@@ -131,6 +227,7 @@ margin_left = 582.0
 margin_top = 69.0
 margin_right = 681.0
 margin_bottom = 110.0
+rect_pivot_offset = Vector2( -68, 56 )
 texture = SubResource( 4 )
 stretch_mode = 1
 
@@ -148,14 +245,98 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[node name="PlayerStats" type="TextureRect" parent="Player/Anchor"]
+margin_left = -175.0
+margin_top = -287.0
+margin_right = -70.0
+margin_bottom = -166.0
+texture = SubResource( 41 )
+expand = true
+stretch_mode = 5
+
+[node name="Atk" type="Label" parent="Player/Anchor/PlayerStats"]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.561905
+anchor_top = 0.0991736
+anchor_right = 0.942857
+anchor_bottom = 0.305785
+theme = SubResource( 42 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Def" type="Label" parent="Player/Anchor/PlayerStats"]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.561905
+anchor_top = 0.380165
+anchor_right = 0.942857
+anchor_bottom = 0.586777
+theme = SubResource( 42 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Eva" type="Label" parent="Player/Anchor/PlayerStats"]
+self_modulate = Color( 0, 0, 0, 1 )
+margin_left = 59.0
+margin_top = 86.0
+margin_right = 99.0
+margin_bottom = 111.0
+theme = SubResource( 42 )
+text = "0"
+align = 1
+valign = 1
+
+[node name="Health" type="TextureRect" parent="Player/Anchor/PlayerStats"]
+margin_top = 131.0
+margin_right = 136.0
+margin_bottom = 189.0
+texture = SubResource( 43 )
+expand = true
+stretch_mode = 5
+
+[node name="Hp" type="Label" parent="Player/Anchor/PlayerStats/Health"]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.566177
+anchor_top = 0.0344827
+anchor_right = 0.864684
+anchor_bottom = 0.775224
+theme = SubResource( 44 )
+text = "10"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 68, -1 )
-offset = Vector2( 200, 0 )
+position = Vector2( 68, 0 )
+offset = Vector2( 250, 0 )
 current = true
 
-[node name="Enemy" parent="." instance=ExtResource( 2 )]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D"]
+anims/RESET = SubResource( 5 )
+anims/Transition = SubResource( 6 )
+
+[node name="CombatGround" type="TileMap" parent="."]
+self_modulate = Color( 0.745098, 0.745098, 0.745098, 1 )
+position = Vector2( -250, -1500 )
+z_index = -99
+z_as_relative = false
+mode = 1
+tile_set = SubResource( 1 )
+cell_size = Vector2( 64, 32 )
+format = 1
+tile_data = PoolIntArray( -589801, 0, 0, -524266, 0, 0, -524265, 0, 0, -524264, 0, 0, -458733, 0, 0, -458732, 0, 0, -458731, 0, 0, -458730, 0, 0, -458729, 0, 0, -458728, 0, 0, -458727, 0, 0, -393201, 0, 0, -393200, 0, 0, -393199, 0, 0, -393198, 0, 0, -393197, 0, 0, -393196, 0, 0, -393195, 0, 0, -393194, 0, 0, -393193, 0, 0, -393192, 0, 0, -393191, 0, 0, -393190, 0, 0, -327666, 0, 0, -327665, 0, 0, -327664, 0, 0, -327663, 0, 0, -327662, 0, 0, -327661, 0, 0, -327660, 0, 0, -327659, 0, 0, -327658, 0, 0, -327657, 0, 0, -327656, 0, 0, -327655, 0, 0, -327654, 0, 0, -327653, 0, 0, -262133, 0, 0, -262132, 0, 0, -262131, 0, 0, -262130, 0, 0, -262129, 0, 0, -262128, 0, 0, -262127, 0, 0, -262126, 0, 0, -262125, 0, 0, -262124, 0, 0, -262123, 0, 0, -262122, 0, 0, -262121, 0, 0, -262120, 0, 0, -262119, 0, 0, -262118, 0, 0, -262117, 0, 0, -262116, 0, 0, -196599, 0, 0, -196598, 0, 0, -196597, 0, 0, -196596, 0, 0, -196595, 0, 0, -196594, 0, 0, -196593, 0, 0, -196592, 0, 0, -196591, 0, 0, -196590, 0, 0, -196589, 0, 0, -196588, 0, 0, -196587, 0, 0, -196586, 0, 0, -196585, 0, 0, -196584, 0, 0, -196583, 0, 0, -196582, 0, 0, -196581, 0, 0, -196580, 0, 0, -196579, 0, 0, -131063, 0, 0, -131062, 0, 0, -131061, 0, 0, -131060, 0, 0, -131059, 0, 0, -131058, 0, 0, -131057, 0, 0, -131056, 0, 0, -131055, 0, 0, -131054, 0, 0, -131053, 0, 0, -131052, 0, 0, -131051, 0, 0, -131050, 0, 0, -131049, 0, 0, -131048, 0, 0, -131047, 0, 0, -131046, 0, 0, -131045, 0, 0, -131044, 0, 0, -131043, 0, 0, -131042, 0, 0, -65526, 0, 0, -65525, 0, 0, -65524, 0, 0, -65523, 0, 0, -65522, 0, 0, -65521, 0, 0, -65520, 0, 0, -65519, 0, 0, -65518, 0, 0, -65517, 0, 0, -65516, 0, 0, -65515, 0, 0, -65514, 0, 0, -65513, 0, 0, -65512, 0, 0, -65511, 0, 0, -65510, 0, 0, -65509, 0, 0, -65508, 0, 0, -65507, 0, 0, -65506, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 23, 0, 0, 24, 0, 0, 25, 0, 0, 26, 0, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 31, 0, 0, 65544, 0, 0, 65545, 0, 0, 65546, 0, 0, 65547, 0, 0, 65548, 0, 0, 65549, 0, 0, 65550, 0, 0, 65551, 0, 0, 65552, 0, 0, 65553, 0, 0, 65554, 0, 0, 65555, 0, 0, 65556, 0, 0, 65557, 0, 0, 65558, 0, 0, 65559, 0, 0, 65560, 0, 0, 65561, 0, 0, 65562, 0, 0, 65563, 0, 0, 65564, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131083, 0, 0, 131084, 0, 0, 131085, 0, 0, 131086, 0, 0, 131087, 0, 0, 131088, 0, 0, 131089, 0, 0, 131090, 0, 0, 131091, 0, 0, 131092, 0, 0, 131093, 0, 0, 131094, 0, 0, 131095, 0, 0, 131096, 0, 0, 131097, 0, 0, 131098, 0, 0, 131099, 0, 0, 131100, 0, 0, 196611, 0, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 196616, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 196621, 0, 0, 196622, 0, 0, 196623, 0, 0, 196624, 0, 0, 196625, 0, 0, 196626, 0, 0, 196627, 0, 0, 196628, 0, 0, 196629, 0, 0, 196630, 0, 0, 196631, 0, 0, 196632, 0, 0, 196633, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 0, 0, 262155, 0, 0, 262156, 0, 0, 262157, 0, 0, 262158, 0, 0, 262159, 0, 0, 262160, 0, 0, 262161, 0, 0, 262162, 0, 0, 262163, 0, 0, 262164, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 0, 0, 327688, 0, 0, 327689, 0, 0, 327690, 0, 0, 327691, 0, 0, 327692, 0, 0, 327693, 0, 0, 327694, 0, 0, 327695, 0, 0, 327696, 0, 0, 327697, 0, 0, 327698, 0, 0, 327699, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393227, 0, 0, 393228, 0, 0, 393229, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 393233, 0, 0, 393234, 0, 0, 458759, 0, 0, 458760, 0, 0, 458761, 0, 0, 458762, 0, 0, 458763, 0, 0, 458764, 0, 0, 458765, 0, 0, 458766, 0, 0, 458767, 0, 0, 458768, 0, 0, 458769, 0, 0, 458770, 0, 0, 524296, 0, 0, 524297, 0, 0, 524298, 0, 0, 524299, 0, 0, 524300, 0, 0, 524301, 0, 0, 524302, 0, 0, 524303, 0, 0, 524304, 0, 0, 524305, 0, 0, 524306, 0, 0, 524307, 0, 0, 589833, 0, 0, 589834, 0, 0, 589835, 0, 0, 589836, 0, 0, 589837, 0, 0, 589838, 0, 0, 589839, 0, 0, 589840, 0, 0, 589841, 0, 0, 589842, 0, 0, 589843, 0, 0, 655370, 0, 0, 655371, 0, 0, 655372, 0, 0, 655373, 0, 0, 655374, 0, 0, 655375, 0, 0, 655376, 0, 0, 655377, 0, 0, 655378, 0, 0, 655379, 0, 0, 655380, 0, 0, 720907, 0, 0, 720908, 0, 0, 720909, 0, 0, 720910, 0, 0, 720911, 0, 0, 720912, 0, 0, 720913, 0, 0, 720914, 0, 0, 720915, 0, 0, 786444, 0, 0, 786445, 0, 0, 786446, 0, 0, 786447, 0, 0, 786448, 0, 0, 786449, 0, 0, 786450, 0, 0, 851981, 0, 0, 851982, 0, 0, 851983, 0, 0, 851984, 0, 0, 851985, 0, 0, 917518, 0, 0 )
 
 [node name="Combat" parent="." instance=ExtResource( 4 )]
-position = Vector2( 0, 300 )
+position = Vector2( -250, -1500 )
 
 [connection signal="pressed" from="Player/Anchor/RollButton" to="Player" method="_on_RollButton_pressed"]
+[connection signal="animation_finished" from="Camera2D/AnimationPlayer" to="Player" method="_on_AnimationPlayer_animation_finished"]

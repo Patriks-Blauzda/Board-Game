@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://TileSet.png" type="Texture" id=1]
 [ext_resource path="res://LucidaSans-Bold.otf" type="DynamicFontData" id=2]
@@ -137,10 +137,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ 2 ]
+"values": [ 2, 0 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:position")
@@ -483,7 +483,7 @@ extents = Vector2( 7.80002, 12.1 )
 atlas = ExtResource( 1 )
 region = Rect2( 305, 203, 66, 20 )
 
-[sub_resource type="DynamicFont" id=40]
+[sub_resource type="DynamicFont" id=47]
 size = 26
 outline_color = Color( 0, 0, 0, 1 )
 extra_spacing_top = 1
@@ -493,7 +493,7 @@ extra_spacing_space = 1
 font_data = ExtResource( 2 )
 
 [sub_resource type="Theme" id=41]
-default_font = SubResource( 40 )
+default_font = SubResource( 47 )
 
 [sub_resource type="Animation" id=16]
 resource_name = "Attack"
@@ -875,9 +875,25 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0.364706, 0.364706, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=42]
 atlas = ExtResource( 1 )
 region = Rect2( 452, 230, 66, 20 )
+
+[sub_resource type="AtlasTexture" id=43]
+atlas = ExtResource( 1 )
+region = Rect2( 452, 204, 66, 20 )
+
+[sub_resource type="AtlasTexture" id=44]
+atlas = ExtResource( 1 )
+region = Rect2( 452, 177, 66, 20 )
+
+[sub_resource type="AtlasTexture" id=45]
+atlas = ExtResource( 1 )
+region = Rect2( 306, 230, 65, 20 )
+
+[sub_resource type="AtlasTexture" id=46]
+atlas = ExtResource( 1 )
+region = Rect2( 378, 230, 66, 20 )
 
 [sub_resource type="DynamicFont" id=36]
 extra_spacing_top = 1
@@ -893,7 +909,7 @@ default_font = SubResource( 36 )
 atlas = ExtResource( 1 )
 region = Rect2( 213, 177, 64, 74 )
 
-[sub_resource type="DynamicFont" id=38]
+[sub_resource type="DynamicFont" id=48]
 size = 18
 outline_color = Color( 0, 0, 0, 1 )
 extra_spacing_top = 1
@@ -903,7 +919,7 @@ extra_spacing_space = 1
 font_data = ExtResource( 2 )
 
 [sub_resource type="Theme" id=39]
-default_font = SubResource( 38 )
+default_font = SubResource( 48 )
 
 [node name="Combat" type="Node2D"]
 script = ExtResource( 3 )
@@ -934,7 +950,6 @@ scale = Vector2( 0.75, 0.75 )
 texture = SubResource( 7 )
 hframes = 3
 vframes = 2
-frame = 5
 
 [node name="Corpse1" type="Sprite" parent="."]
 position = Vector2( 833, 237 )
@@ -978,7 +993,6 @@ anims/TakeDamage = SubResource( 24 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy1/Area2D"]
 position = Vector2( 9.00002, 6 )
-scale = Vector2( 1, 1 )
 shape = SubResource( 30 )
 
 [node name="Health" type="TextureRect" parent="Enemy1"]
@@ -993,10 +1007,10 @@ stretch_mode = 5
 
 [node name="Hp" type="Label" parent="Enemy1/Health"]
 self_modulate = Color( 0, 0, 0, 1 )
-anchor_left = 0.588235
-anchor_top = 0.0344822
-anchor_right = 0.886742
-anchor_bottom = 0.775223
+anchor_left = 0.558823
+anchor_top = 0.0344827
+anchor_right = 0.85733
+anchor_bottom = 0.775224
 theme = SubResource( 41 )
 text = "10"
 align = 1
@@ -1048,10 +1062,10 @@ stretch_mode = 5
 
 [node name="Hp" type="Label" parent="Enemy2/Health"]
 self_modulate = Color( 0, 0, 0, 1 )
-anchor_left = 0.588235
-anchor_top = 0.0344822
-anchor_right = 0.886742
-anchor_bottom = 0.775223
+anchor_left = 0.566176
+anchor_top = 0.0344827
+anchor_right = 0.864683
+anchor_bottom = 0.775224
 theme = SubResource( 41 )
 text = "10"
 align = 1
@@ -1103,10 +1117,10 @@ stretch_mode = 5
 
 [node name="Hp" type="Label" parent="Enemy3/Health"]
 self_modulate = Color( 0, 0, 0, 1 )
-anchor_left = 0.588235
-anchor_top = 0.0344822
-anchor_right = 0.886742
-anchor_bottom = 0.775223
+anchor_left = 0.55147
+anchor_top = 0.0344827
+anchor_right = 0.849977
+anchor_bottom = 0.775224
 theme = SubResource( 41 )
 text = "10"
 align = 1
@@ -1123,16 +1137,62 @@ hframes = 3
 vframes = 2
 frame = 5
 
-[node name="TextureButton" type="TextureButton" parent="."]
-margin_left = 418.0
-margin_top = 391.0
-margin_right = 591.0
-margin_bottom = 442.0
-texture_normal = SubResource( 4 )
+[node name="Actions" type="VBoxContainer" parent="."]
+margin_left = 438.0
+margin_top = 344.0
+margin_right = 612.0
+margin_bottom = 563.0
+
+[node name="Atk" type="TextureButton" parent="Actions"]
+margin_right = 174.0
+margin_bottom = 51.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 42 )
 expand = true
 stretch_mode = 4
 __meta__ = {
-"_edit_group_": true
+"_edit_use_anchors_": true
+}
+
+[node name="Def" type="TextureButton" parent="Actions"]
+margin_top = 55.0
+margin_right = 174.0
+margin_bottom = 107.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 43 )
+expand = true
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Eva" type="TextureButton" parent="Actions"]
+margin_top = 111.0
+margin_right = 174.0
+margin_bottom = 163.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 44 )
+expand = true
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Card" type="TextureButton" parent="Actions"]
+margin_top = 167.0
+margin_right = 174.0
+margin_bottom = 219.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 45 )
+texture_disabled = SubResource( 46 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": true
 }
 
 [node name="Turn" type="Label" parent="."]
@@ -1141,9 +1201,33 @@ margin_top = 15.0
 margin_right = 612.0
 margin_bottom = 49.0
 theme = SubResource( 37 )
-text = "Your Turn"
 align = 1
 valign = 1
+
+[node name="DmgNum" type="Label" parent="."]
+margin_left = 367.0
+margin_top = 45.0
+margin_right = 672.0
+margin_bottom = 88.0
+theme = SubResource( 37 )
+align = 1
+valign = 1
+max_lines_visible = 2
+
+[node name="AttackerDice" type="Sprite" parent="DmgNum"]
+visible = false
+position = Vector2( 128, 53 )
+texture = SubResource( 7 )
+hframes = 3
+vframes = 2
+
+[node name="TargetDice" type="Sprite" parent="DmgNum"]
+visible = false
+position = Vector2( 178, 53 )
+texture = SubResource( 7 )
+hframes = 3
+vframes = 2
+frame = 5
 
 [node name="PlayerStats" type="TextureRect" parent="."]
 margin_left = 15.0
@@ -1203,10 +1287,10 @@ stretch_mode = 5
 
 [node name="Hp" type="Label" parent="PlayerStats/Health"]
 self_modulate = Color( 0, 0, 0, 1 )
-anchor_left = 0.588235
-anchor_top = 0.0344822
-anchor_right = 0.886742
-anchor_bottom = 0.775223
+anchor_left = 0.566177
+anchor_top = 0.0344827
+anchor_right = 0.864684
+anchor_bottom = 0.775224
 theme = SubResource( 41 )
 text = "10"
 align = 1
@@ -1273,4 +1357,7 @@ valign = 1
 [connection signal="animation_finished" from="Enemy3/AnimationPlayer" to="Enemy3" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="input_event" from="Enemy3/Area2D" to="Player" method="_on_Area2D_input_event" binds= [ 3 ]]
 [connection signal="mouse_exited" from="Enemy3/Area2D" to="Player" method="_on_Area2D_mouse_exited"]
-[connection signal="pressed" from="TextureButton" to="Player" method="_on_TextureButton_pressed"]
+[connection signal="pressed" from="Actions/Atk" to="Player" method="_on_Button_pressed" binds= [ 0 ]]
+[connection signal="pressed" from="Actions/Def" to="Player" method="_on_Button_pressed" binds= [ 1 ]]
+[connection signal="pressed" from="Actions/Eva" to="Player" method="_on_Button_pressed" binds= [ 2 ]]
+[connection signal="pressed" from="Actions/Card" to="Player" method="_on_Button_pressed" binds= [ 3 ]]

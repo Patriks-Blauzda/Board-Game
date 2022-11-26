@@ -1,9 +1,9 @@
 extends Sprite
 
-export var atk = 4
+export var atk = 400
 export var def = 2
 export var eva = 2
-export var hp = 10
+export var hp = 100
 
 onready var tilemap = get_owner().get_node("TileMap")
 onready var camera = get_owner().get_node("Camera2D")
@@ -17,7 +17,7 @@ var rolling = 0
 
 
 func _ready():
-	position = tilemap.map_to_world(tilemap.path[tile_index])
+	position = tilemap.map_to_world(tilemap.path[tile_index]) + Vector2(250, 300)
 	OS.center_window()
 
 
@@ -66,7 +66,31 @@ func move():
 	# As long as the player has moved, takes away one movement point
 	if tile_index != previous_index:
 		movement_points -= 1
+		
+		if Global.enemies.has(tilemap.get_cellv(tilemap.path[tile_index])):
+			movement_points = 0
+			
+			get_owner().get_node("Combat").initialize_combat(self, tilemap.get_cellv(tilemap.path[tile_index]))
+			
+			tilemap.set_cellv(tilemap.path[tile_index], 0)
+			
+			camera.get_node("AnimationPlayer").play("Transition")
+		
+		
+		match tilemap.get_cellv(tilemap.path[tile_index]):
+			5:
+				hp -= 1
+				
+			6:
+				for i in tilemap.path:
+					if tilemap.get_cellv(i) == 6 && i != tilemap.path[tile_index]:
+						tile_index = tilemap.path.find(i)
+						previous_index = tile_index
 
+
+func _on_AnimationPlayer_animation_finished(_anim_name):
+	if camera.position.y != 0:
+		get_owner().get_node("Combat").rolling = 240
 
 
 func _physics_process(_delta):
@@ -75,13 +99,15 @@ func _physics_process(_delta):
 	$Anchor/TextureRect/Label.text = "MP: " + str(movement_points)
 	
 	
+	$Anchor/PlayerStats/Atk.text = str(atk)
+	$Anchor/PlayerStats/Def.text = str(def)
+	$Anchor/PlayerStats/Eva.text = str(eva)
+	$Anchor/PlayerStats/Health/Hp.text = str(hp)
+	
+	
 	# Will be updated when other parts of the game are done
 	if movement_points > 0 && position == tilemap.map_to_world(tilemap.path[tile_index]) && rolling == 0:
 		move()
-		
-		if Global.enemies.has(tilemap.get_cellv(tilemap.path[tile_index])):
-			movement_points = 0
-			tilemap.set_cellv(tilemap.path[tile_index], 0)
 		
 	# Animates the player moving from one tile to another
 	elif position != tilemap.map_to_world(tilemap.path[tile_index]):
