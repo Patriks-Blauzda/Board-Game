@@ -34,7 +34,7 @@ func remove_card(child_index):
 func _ready():
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
-	
+	add_card(3)
 	add_card(combat_cards[rng.randi_range(0,2)])
 	
 	hide()
@@ -57,7 +57,7 @@ func _on_Card_Pressed(card_index, card_self):
 		remove_card(card_list.find(card_self))
 	
 	
-	elif board_cards.has(card_index) && !Global.in_combat && !player.card_played:
+	elif board_cards.has(card_index) && !Global.in_combat && !player.card_played && player.movement_points == 0:
 		match card_index:
 			1:
 				player.hp += 1
@@ -66,5 +66,4 @@ func _on_Card_Pressed(card_index, card_self):
 		
 		player.card_played = true
 		hide()
-		print(card_self)
 		remove_card(card_list.find(card_self))
