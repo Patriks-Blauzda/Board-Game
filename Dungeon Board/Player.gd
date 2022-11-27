@@ -1,10 +1,9 @@
 extends Sprite
 
-export var atk = 3
-export var def = 6
-export var eva = 6
-export var hp = 35
-
+export var atk = 0
+export var def = 1
+export var eva = 1
+export var hp = 30
 
 
 onready var tilemap = get_owner().get_node("TileMap")
@@ -22,7 +21,6 @@ var card_played = false
 
 func _ready():
 	position = tilemap.map_to_world(tilemap.path[tile_index]) + Vector2(250, 300)
-	OS.center_window()
 
 
 # Updates the player's target position
@@ -102,6 +100,11 @@ func _on_AnimationPlayer_animation_finished(_anim_name):
 
 
 func _physics_process(_delta):
+	
+	if hp < 1 || get_owner().get_node("Combat/Player").hp < 1:
+		camera.get_node("GameOver").show()
+		get_tree().paused = true
+	
 	$SelectionVisual.hide()
 	
 	$Anchor/TextureRect/Label.text = "MP: " + str(movement_points)

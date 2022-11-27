@@ -206,8 +206,9 @@ func _process(_delta):
 					break
 		
 		if turnorder.size() == 1:
-			end_combat(get_owner().get_node("Player"))
-			get_owner().get_node("Camera2D/AnimationPlayer").play_backwards("Transition")
+			get_owner().get_node("Camera2D/StatUp").show()
+			turnorder.clear()
+			$Player.turn = false
 	
 	
 	if rolling != 0:
@@ -231,3 +232,19 @@ func _process(_delta):
 				i.get_node("Dice").hide()
 			
 			turnorder[0].turn = true
+
+
+func _on_StatUp_pressed(extra_arg_0):
+	match extra_arg_0:
+		0:
+			$Player.atk += 1 
+		1:
+			$Player.def += 1
+		2:
+			$Player.eva += 1
+		3:
+			$Player.hp += 5
+	
+	end_combat(get_owner().get_node("Player"))
+	get_owner().get_node("Camera2D/StatUp").hide()
+	get_owner().get_node("Camera2D/AnimationPlayer").play_backwards("Transition")

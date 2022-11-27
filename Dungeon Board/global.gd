@@ -1,5 +1,8 @@
 extends Node
 
+func _ready():
+	OS.center_window()
+
 # Global script, contents can be called from anywhere (for example, in TileMap.gd, 'Global.directions')
 
 # The directions the player can move in (right, left, up, down)

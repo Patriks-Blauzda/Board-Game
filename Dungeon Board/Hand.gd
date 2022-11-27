@@ -32,9 +32,6 @@ func remove_card(child_index):
 
 
 func _ready():
-	add_card(1)
-	add_card(2)
-	add_card(0)
 	hide()
 
 

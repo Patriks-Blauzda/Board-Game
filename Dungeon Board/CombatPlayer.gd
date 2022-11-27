@@ -4,10 +4,10 @@ onready var combat = get_owner()
 
 var idle = true
 
-var hp = 35
-var atk = 3
-var def = 6
-var eva = 6
+var hp = 30
+var atk = 0
+var def = 1
+var eva = 1
 var initiative = 0
 
 var bonus_atk = 0
