@@ -25,14 +25,15 @@ func initialize_combat(playernode: Node, tileid: int):
 	$Player/Dice.show()
 	$Player.card_played = false
 	
+	$Player.reset_bonus()
 	
 	if tileid == 1:
 		var target = get_node("Enemy1")
 		
 		target.def = Global.roll()
 		target.eva = Global.roll()
-		target.atk = Global.roll() / 2
-		target.hp = 18 - (target.def + target.atk + target.eva)
+		target.atk = ceil((Global.roll() - 1) / 2)
+		target.hp = 16 - (target.def + target.atk + target.eva)
 		
 		target.in_combat = true
 		target.get_node("Dice").show()
@@ -43,8 +44,8 @@ func initialize_combat(playernode: Node, tileid: int):
 			
 			target.def = Global.roll()
 			target.eva = Global.roll()
-			target.atk = Global.roll() / 2
-			target.hp = 20 - (target.def + target.atk + target.eva)
+			target.atk = ceil((Global.roll() - 1) / 2)
+			target.hp = 16 - (target.def + target.atk + target.eva)
 			
 			target.in_combat = true
 			target.get_node("Dice").show()
@@ -58,6 +59,7 @@ func end_combat(playernode: Node):
 	$Player/Dice.hide()
 	$Player.action = -1
 	$Player.card_played = false
+	$Player.card_duration = 2
 	
 	playernode.hp = $Player.hp
 	playernode.atk = $Player.atk
@@ -146,6 +148,12 @@ func attack(attacker: Node, target: Node):
 func advanceturn():
 	for i in range(turnorder.size()):
 		if turnorder[i].turn:
+			if turnorder[i].name == "Player":
+				if turnorder[i].card_duration == 0:
+					turnorder[i].reset_bonus()
+				else:
+					turnorder[i].card_duration -= 1
+			
 			if i < turnorder.size() - 1:
 				turnorder[i].turn = false
 				turnorder[i + 1].turn = true
@@ -190,48 +198,52 @@ func _ready():
 
 
 func _process(_delta):
-	if get_current_turn() != null:
-		$Turn.text = str(get_current_turn().get_name()) + "'s Turn"
-	
-	
-		var is_turn_finished = true
-		for i in turnorder:
-			if i.get_node("AnimationPlayer").current_animation != "Idle":
-				is_turn_finished = false
-	
-		if is_turn_finished && get_current_turn().name != "Player":
+	if Global.game_active:
+		if get_current_turn() != null:
+			$Turn.text = str(get_current_turn().get_name()) + "'s Turn"
+		
+		
+			var is_turn_finished = true
 			for i in turnorder:
-				if i.get_node("AnimationPlayer").current_animation == "Idle":
-					get_current_turn().do_turn()
-					break
+				if i.get_node("AnimationPlayer").current_animation != "Idle":
+					is_turn_finished = false
 		
-		if turnorder.size() == 1:
-			get_owner().get_node("Camera2D/StatUp").show()
-			turnorder.clear()
-			$Player.turn = false
-	
-	
-	if rolling != 0:
-		if rolling > 160:
-			for i in [$Player, $Enemy1, $Enemy2, $Enemy3]:
-				if i.visible:
-					i.get_node("Dice").frame = Global.roll() - 1
-		
-		rolling -= 1
-		
-		if rolling == 160:
-			for i in [$Player, $Enemy1, $Enemy2, $Enemy3]:
-				if i.visible:
-					i.initiative = i.get_node("Dice").frame + 1
-					turnorder.append(i)
-					
-			sortinitiative()
-	
-	elif $Player/Dice.visible && !turnorder.empty():
-			for i in [$Player, $Enemy1, $Enemy2, $Enemy3]:
-				i.get_node("Dice").hide()
+			if is_turn_finished && get_current_turn().name != "Player":
+				for i in turnorder:
+					if i.get_node("AnimationPlayer").current_animation == "Idle":
+						get_current_turn().do_turn()
+						break
 			
-			turnorder[0].turn = true
+			if turnorder.size() == 1:
+				get_owner().get_node("Camera2D/StatUp").show()
+				$Player.reset_bonus()
+				turnorder.clear()
+				$Player.turn = false
+		
+		
+		if rolling != 0:
+			if rolling > 160:
+				for i in [$Player, $Enemy1, $Enemy2, $Enemy3]:
+					if i.visible:
+						i.get_node("Dice").frame = Global.roll() - 1
+			
+			rolling -= 1
+			
+			if rolling == 160:
+				for i in [$Player, $Enemy1, $Enemy2, $Enemy3]:
+					if i.visible:
+						i.initiative = i.get_node("Dice").frame + 1
+						turnorder.append(i)
+						
+				sortinitiative()
+		
+		elif $Player/Dice.visible && !turnorder.empty():
+				for i in [$Player, $Enemy1, $Enemy2, $Enemy3]:
+					i.get_node("Dice").hide()
+				
+				turnorder[0].turn = true
+	else:
+		$Actions.hide()
 
 
 func _on_StatUp_pressed(extra_arg_0):

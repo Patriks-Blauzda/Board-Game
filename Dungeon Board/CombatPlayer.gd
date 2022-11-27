@@ -4,7 +4,7 @@ onready var combat = get_owner()
 
 var idle = true
 
-var hp = 30
+var hp = 40
 var atk = 0
 var def = 1
 var eva = 1
@@ -19,7 +19,9 @@ var target = null
 var moused_over = -1
 
 var turn = false
+
 var card_played = false
+var card_duration = 2
 
 
 func reset_bonus():
@@ -29,6 +31,10 @@ func reset_bonus():
 
 
 func _process(_delta):
+	if hp < 1:
+		frame = 3
+		$AnimationPlayer.stop()
+	
 	combat.get_node("PlayerStats/Atk").text = str(atk + bonus_atk)
 	combat.get_node("PlayerStats/Def").text = str(def + bonus_def)
 	combat.get_node("PlayerStats/Eva").text = str(eva + bonus_eva)
@@ -53,7 +59,7 @@ func _process(_delta):
 		combat.get_node("Actions").hide()
 	
 	
-	if target != null && target.idle:
+	if target != null && target.idle && idle && turn:
 		target.self_modulate = Color(0.109804, 1, 0.219608)
 	
 	
@@ -61,7 +67,6 @@ func _process(_delta):
 		$AnimationPlayer.play("Idle")
 		
 	if ![-1, 2].has(action) && turn:
-		reset_bonus()
 		combat.advanceturn()
 
 
@@ -70,7 +75,7 @@ func _on_Area2D_input_event(_viewport, event, _shape_idx, extra_arg_0):
 		moused_over = extra_arg_0
 	
 	if event is InputEventMouseButton:
-		if !event.pressed && event.button_index == 1:
+		if !event.pressed && event.button_index == 1 && idle && turn:
 			target = combat.get_node("Enemy" + str(extra_arg_0))
 
 
@@ -78,7 +83,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	idle = true
 	if ["Attack1", "Attack2", "Attack3"].has(anim_name):
 		
-		reset_bonus()
 		get_owner().advanceturn()
 
 

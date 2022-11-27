@@ -13,14 +13,14 @@ var board_cards = [1, 3]
 
 func add_card(card_index):
 	var card = card_source.instance()
-	var card_order = card_list.size()
+	var card_self = card
 	
 	card.texture_normal = card.texture_normal.duplicate()
 	
 	card.texture_normal.region.position.x = clamp(126 + (95 * card_index), 126, 506)
 	
 	add_child(card)
-	card.connect("pressed", self, "_on_Card_Pressed", [card_index, card_order])
+	card.connect("pressed", self, "_on_Card_Pressed", [card_index, card_self])
 	
 	card_list.append(card)
 
@@ -32,10 +32,15 @@ func remove_card(child_index):
 
 
 func _ready():
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	
+	add_card(combat_cards[rng.randi_range(0,2)])
+	
 	hide()
 
 
-func _on_Card_Pressed(card_index, card_order):
+func _on_Card_Pressed(card_index, card_self):
 	if combat_cards.has(card_index) && Global.in_combat && !combatplayer.card_played:
 		match card_index:
 			0:
@@ -49,7 +54,7 @@ func _on_Card_Pressed(card_index, card_order):
 		
 		combatplayer.card_played = true
 		hide()
-		remove_card(card_order)
+		remove_card(card_list.find(card_self))
 	
 	
 	elif board_cards.has(card_index) && !Global.in_combat && !player.card_played:
@@ -61,4 +66,5 @@ func _on_Card_Pressed(card_index, card_order):
 		
 		player.card_played = true
 		hide()
-		remove_card(card_order)
+		print(card_self)
+		remove_card(card_list.find(card_self))

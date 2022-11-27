@@ -30,12 +30,12 @@ func _get_path(previous : Vector2 = Vector2(0, 0), current : Vector2 = Vector2(0
 	while(get_cellv(path[path.size() - 1]) != 2 || next_tiles.size() > 1):
 		next_tiles = _get_next_tiles(previous, current)
 		
-		# If there are multiple pats, runs itself for each direction
+		# If there are multiple paths, runs itself for each direction
 		if next_tiles.size() > 1:
 			for i in next_tiles:
 				_get_path(current, i)
 		
-		# Simply adds tile to path if only one direction to move in
+		# Adds tile to path if only one direction to move in
 		elif !next_tiles.empty():
 			path.append(next_tiles[0])
 		

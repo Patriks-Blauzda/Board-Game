@@ -3,7 +3,7 @@ extends Sprite
 export var atk = 0
 export var def = 1
 export var eva = 1
-export var hp = 30
+export var hp = 40
 
 
 onready var tilemap = get_owner().get_node("TileMap")
@@ -21,6 +21,7 @@ var card_played = false
 
 func _ready():
 	position = tilemap.map_to_world(tilemap.path[tile_index]) + Vector2(250, 300)
+	Global.game_active = true
 
 
 # Updates the player's target position
@@ -84,7 +85,7 @@ func move():
 		match tilemap.get_cellv(tilemap.path[tile_index]):
 			3:
 				var hand = camera.get_node("Hand")
-				if hand.card_list.size() < 5:
+				if hand.get_child_count() < 5:
 					var rng = RandomNumberGenerator.new()
 					rng.randomize()
 					
@@ -116,66 +117,69 @@ func _on_AnimationPlayer_animation_finished(_anim_name):
 	else:
 		if tilemap.has_won():
 			camera.get_node("Win").show()
-			get_tree().paused = true
+			
 
 
 func _physics_process(_delta):
-	
-	if hp < 1 || get_owner().get_node("Combat/Player").hp < 1:
-		camera.get_node("GameOver").show()
-		get_tree().paused = true
-	
-	$SelectionVisual.hide()
-	
-	$Anchor/TextureRect/Label.text = "MP: " + str(movement_points)
-	
-	
-	$Anchor/PlayerStats/Atk.text = str(atk)
-	$Anchor/PlayerStats/Def.text = str(def)
-	$Anchor/PlayerStats/Eva.text = str(eva)
-	$Anchor/PlayerStats/Health/Hp.text = str(hp)
-	
-	
-	if camera.get_node("Hand").get_child_count() > 0 && !card_played && !get_owner().get_node("Combat/Player").card_played:
-		$Anchor/Card.disabled = false
-		get_owner().get_node("Combat/Actions/Card").disabled = false
-	else:
-		$Anchor/Card.disabled = true
-		get_owner().get_node("Combat/Actions/Card").disabled = true
-	
-	
-	# Will be updated when other parts of the game are done
-	if movement_points > 0 && position == tilemap.map_to_world(tilemap.path[tile_index]) && rolling == 0:
-		move()
+	if Global.game_active:
+		if hp < 1 || get_owner().get_node("Combat/Player").hp < 1:
+			camera.get_node("GameOver").show()
+			Global.game_active = false
+			frame = 3
+			
 		
-		if movement_points == 0:
-			Global.turn += 1
-			card_played = false
+		$SelectionVisual.hide()
 		
-	# Animates the player moving from one tile to another
-	elif position != tilemap.map_to_world(tilemap.path[tile_index]):
-		var target = tilemap.map_to_world(tilemap.path[tile_index])
+		$Anchor/TextureRect/Label.text = "MP: " + str(movement_points)
 		
-		$Tween.interpolate_property(
-			self, "position",
-			position, target,
-			0.05, Tween.TRANS_QUAD, Tween.EASE_IN_OUT
-		)
-		$Tween.start()
 		
-		if position.distance_to(target) < 0.35:
-			position = target
-			$Tween.stop_all()
-	
-	elif rolling != 0:
-		if rolling > 40:
-			$Anchor/Sprite.frame = Global.roll() - 1
+		$Anchor/PlayerStats/Atk.text = str(atk)
+		$Anchor/PlayerStats/Def.text = str(def)
+		$Anchor/PlayerStats/Eva.text = str(eva)
+		$Anchor/PlayerStats/Health/Hp.text = str(hp)
 		
-		rolling -= 1
 		
-		if rolling == 40:
-			movement_points = $Anchor/Sprite.frame + 1 + mp_bonus
-	
+		if camera.get_node("Hand").get_child_count() > 0 && !card_played && !get_owner().get_node("Combat/Player").card_played:
+			$Anchor/Card.disabled = false
+			get_owner().get_node("Combat/Actions/Card").disabled = false
+		else:
+			$Anchor/Card.disabled = true
+			get_owner().get_node("Combat/Actions/Card").disabled = true
+		
+		
+		# Will be updated when other parts of the game are done
+		if movement_points > 0 && position == tilemap.map_to_world(tilemap.path[tile_index]) && rolling == 0:
+			move()
+			
+			if movement_points == 0:
+				Global.turn += 1
+				card_played = false
+				mp_bonus = 0
+			
+		# Animates the player moving from one tile to another
+		elif position != tilemap.map_to_world(tilemap.path[tile_index]):
+			var target = tilemap.map_to_world(tilemap.path[tile_index])
+			
+			$Tween.interpolate_property(
+				self, "position",
+				position, target,
+				0.05, Tween.TRANS_QUAD, Tween.EASE_IN_OUT
+			)
+			$Tween.start()
+			
+			if position.distance_to(target) < 0.35:
+				position = target
+				$Tween.stop_all()
+		
+		elif rolling != 0:
+			if rolling > 40:
+				$Anchor/Sprite.frame = Global.roll() - 1
+			
+			rolling -= 1
+			
+			if rolling == 40:
+				movement_points = $Anchor/Sprite.frame + 1 + mp_bonus
+		
 
 
 func _on_RollButton_pressed():

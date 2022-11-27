@@ -1,9 +1,11 @@
 extends Node
 
+# Global script, contents can be called from anywhere (for example, in TileMap.gd, 'Global.directions')
+
 func _ready():
 	OS.center_window()
 
-# Global script, contents can be called from anywhere (for example, in TileMap.gd, 'Global.directions')
+var game_active = false
 
 # The directions the player can move in (right, left, up, down)
 const directions : Array = [Vector2(1, 0), Vector2(-1, 0), Vector2(0, -1), Vector2(0, 1)]
