@@ -86,6 +86,7 @@ func move():
 					if tilemap.get_cellv(i) == 6 && i != tilemap.path[tile_index]:
 						tile_index = tilemap.path.find(i)
 						previous_index = tile_index
+						break
 
 
 func _on_AnimationPlayer_animation_finished(_anim_name):
