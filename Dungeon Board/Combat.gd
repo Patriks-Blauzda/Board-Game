@@ -116,7 +116,7 @@ func attack(attacker: Node, target: Node):
 			if target.name == "Player":
 				def += target.bonus_def
 			
-			$DmgNum.text = "Blocked! Dealt " + str(clamp(dmg - def, 1, 99)) + " Damage"
+			$DmgNum.text = "Blocked! Dealt " + str(clamp(dmg - def - 1, 1, 99)) + " Damage"
 			
 			target.hp -= clamp(dmg - def - 1, 1, 99)
 			
