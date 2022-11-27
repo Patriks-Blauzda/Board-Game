@@ -47,5 +47,14 @@ func _get_path(previous : Vector2 = Vector2(0, 0), current : Vector2 = Vector2(0
 		current = next_tiles[0]
 
 
+func has_won():
+	var status = true
+	for i in path:
+		if Global.enemies.has(get_cellv(i)):
+			status = false
+	
+	return status
+
+
 func _ready():
 	_get_path()

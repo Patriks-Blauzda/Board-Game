@@ -82,6 +82,22 @@ func move():
 		
 		
 		match tilemap.get_cellv(tilemap.path[tile_index]):
+			3:
+				var hand = camera.get_node("Hand")
+				if hand.card_list.size() < 5:
+					var rng = RandomNumberGenerator.new()
+					rng.randomize()
+					
+					for _i in range(0, rng.randi_range(1, 2)):
+						var card_to_add = rng.randi_range(0, 4)
+						hand.add_card(card_to_add)
+						
+						if hand.card_list.size() > 4:
+							break
+					
+					movement_points = 0
+					tilemap.set_cellv(tilemap.path[tile_index], 0)
+				
 			5:
 				hp -= 1
 				
@@ -97,6 +113,10 @@ func move():
 func _on_AnimationPlayer_animation_finished(_anim_name):
 	if camera.position.y != 0:
 		get_owner().get_node("Combat").rolling = 240
+	else:
+		if tilemap.has_won():
+			camera.get_node("Win").show()
+			get_tree().paused = true
 
 
 func _physics_process(_delta):
@@ -130,7 +150,6 @@ func _physics_process(_delta):
 		
 		if movement_points == 0:
 			Global.turn += 1
-			print(Global.turn)
 			card_played = false
 		
 	# Animates the player moving from one tile to another
