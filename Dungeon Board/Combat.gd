@@ -23,6 +23,7 @@ func initialize_combat(playernode: Node, tileid: int):
 	$Player.def = playernode.def
 	$Player.eva = playernode.eva
 	$Player/Dice.show()
+	$Player.card_played = false
 	
 	
 	if tileid == 1:
@@ -31,7 +32,7 @@ func initialize_combat(playernode: Node, tileid: int):
 		target.def = Global.roll()
 		target.eva = Global.roll()
 		target.atk = Global.roll() / 2
-		target.hp = 20 - (target.def + target.atk + target.eva)
+		target.hp = 18 - (target.def + target.atk + target.eva)
 		
 		target.in_combat = true
 		target.get_node("Dice").show()
@@ -48,13 +49,20 @@ func initialize_combat(playernode: Node, tileid: int):
 			target.in_combat = true
 			target.get_node("Dice").show()
 	
+	
 	initialized = true
 
 
-func end_combat():
+func end_combat(playernode: Node):
 	$Player.turn = false
 	$Player/Dice.hide()
 	$Player.action = -1
+	$Player.card_played = false
+	
+	playernode.hp = $Player.hp
+	playernode.atk = $Player.atk
+	playernode.def = $Player.def
+	playernode.eva = $Player.eva
 	
 	for i in range(1, 4):
 		var target = get_node("Enemy" + str(i))
@@ -67,6 +75,7 @@ func end_combat():
 	$DmgNum/AttackerDice.hide()
 	$DmgNum/TargetDice.hide()
 	
+	Global.in_combat = false
 	turnorder = []
 
 
@@ -74,6 +83,7 @@ func end_combat():
 func attack(attacker: Node, target: Node):
 	attacker.idle = false
 	target.idle = false
+	
 	$DmgNum/AttackerDice.show()
 	$DmgNum/TargetDice.show()
 	
@@ -87,6 +97,7 @@ func attack(attacker: Node, target: Node):
 	
 	if attacker.name == "Player":
 		attacker.get_node("AnimationPlayer").play("Attack" + target.name[target.name.length() - 1])
+		dmg += attacker.bonus_atk
 	else:
 		attacker.get_node("AnimationPlayer").play("Attack")
 	
@@ -102,6 +113,9 @@ func attack(attacker: Node, target: Node):
 			$DmgNum/TargetDice.frame = Global.roll() - 1
 			var def = $DmgNum/TargetDice.frame + 1 + target.def
 			
+			if target.name == "Player":
+				def += target.bonus_def
+			
 			$DmgNum.text = "Blocked! Dealt " + str(clamp(dmg - def, 1, 99)) + " Damage"
 			
 			target.hp -= clamp(dmg - def - 1, 1, 99)
@@ -114,7 +128,10 @@ func attack(attacker: Node, target: Node):
 			$DmgNum/TargetDice.frame = Global.roll() - 1
 			var eva = $DmgNum/TargetDice.frame + 1 + target.eva
 			
-			if eva < dmg:
+			if target.name == "Player":
+				eva += target.bonus_eva
+			
+			if eva <= dmg:
 				target.hp -= dmg
 				target.get_node("AnimationPlayer").play("TakeDamage")
 			
@@ -169,7 +186,7 @@ func _ready():
 	for i in [$Player, $Enemy1, $Enemy2, $Enemy3]:
 			i.get_node("Dice").hide()
 
-	end_combat()
+	end_combat(get_owner().get_node("Player"))
 
 
 func _process(_delta):
@@ -189,7 +206,7 @@ func _process(_delta):
 					break
 		
 		if turnorder.size() == 1:
-			end_combat()
+			end_combat(get_owner().get_node("Player"))
 			get_owner().get_node("Camera2D/AnimationPlayer").play_backwards("Transition")
 	
 	

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://TileSet.png" type="Texture" id=2]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 411, 272, 95, 123 )
+
+[node name="Card" type="TextureButton"]
+margin_right = 140.0
+margin_bottom = 182.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 1 )
+expand = true
+stretch_mode = 5

@@ -11,6 +11,8 @@ const enemies : Array = [1, 2]
 var turn = 0
 var current_floor = 0
 
+var in_combat = false
+
 
 var rng = RandomNumberGenerator.new()
 

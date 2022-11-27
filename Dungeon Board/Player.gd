@@ -1,9 +1,11 @@
 extends Sprite
 
-export var atk = 400
-export var def = 2
-export var eva = 2
-export var hp = 100
+export var atk = 3
+export var def = 6
+export var eva = 6
+export var hp = 35
+
+
 
 onready var tilemap = get_owner().get_node("TileMap")
 onready var camera = get_owner().get_node("Camera2D")
@@ -12,9 +14,11 @@ var previous_index = 0
 var tile_index = 0
 
 var movement_points = 0
+var mp_bonus = 0
 
 var rolling = 0
 
+var card_played = false
 
 func _ready():
 	position = tilemap.map_to_world(tilemap.path[tile_index]) + Vector2(250, 300)
@@ -75,6 +79,8 @@ func move():
 			tilemap.set_cellv(tilemap.path[tile_index], 0)
 			
 			camera.get_node("AnimationPlayer").play("Transition")
+			camera.get_node("Hand").hide()
+			Global.in_combat = true
 		
 		
 		match tilemap.get_cellv(tilemap.path[tile_index]):
@@ -87,6 +93,7 @@ func move():
 						tile_index = tilemap.path.find(i)
 						previous_index = tile_index
 						break
+
 
 
 func _on_AnimationPlayer_animation_finished(_anim_name):
@@ -106,9 +113,22 @@ func _physics_process(_delta):
 	$Anchor/PlayerStats/Health/Hp.text = str(hp)
 	
 	
+	if camera.get_node("Hand").get_child_count() > 0 && !card_played && !get_owner().get_node("Combat/Player").card_played:
+		$Anchor/Card.disabled = false
+		get_owner().get_node("Combat/Actions/Card").disabled = false
+	else:
+		$Anchor/Card.disabled = true
+		get_owner().get_node("Combat/Actions/Card").disabled = true
+	
+	
 	# Will be updated when other parts of the game are done
 	if movement_points > 0 && position == tilemap.map_to_world(tilemap.path[tile_index]) && rolling == 0:
 		move()
+		
+		if movement_points == 0:
+			Global.turn += 1
+			print(Global.turn)
+			card_played = false
 		
 	# Animates the player moving from one tile to another
 	elif position != tilemap.map_to_world(tilemap.path[tile_index]):
@@ -132,10 +152,14 @@ func _physics_process(_delta):
 		rolling -= 1
 		
 		if rolling == 40:
-			movement_points += $Anchor/Sprite.frame + 1
-		
+			movement_points = $Anchor/Sprite.frame + 1 + mp_bonus
+	
 
 
 func _on_RollButton_pressed():
 	if movement_points == 0:
 		rolling = 80
+
+
+func _on_Card_pressed():
+	camera.get_node("Hand").visible = !camera.get_node("Hand").visible

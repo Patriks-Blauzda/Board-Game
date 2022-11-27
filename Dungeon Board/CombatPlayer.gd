@@ -4,23 +4,34 @@ onready var combat = get_owner()
 
 var idle = true
 
-var hp = 100
-var atk = 2
-var def = 5
-var eva = 3
+var hp = 35
+var atk = 3
+var def = 6
+var eva = 6
 var initiative = 0
+
+var bonus_atk = 0
+var bonus_def = 0
+var bonus_eva = 0
 
 var action = -1
 var target = null
 var moused_over = -1
 
 var turn = false
+var card_played = false
+
+
+func reset_bonus():
+	bonus_atk = 0
+	bonus_def = 0
+	bonus_eva = 0
 
 
 func _process(_delta):
-	combat.get_node("PlayerStats/Atk").text = str(atk)
-	combat.get_node("PlayerStats/Def").text = str(def)
-	combat.get_node("PlayerStats/Eva").text = str(eva)
+	combat.get_node("PlayerStats/Atk").text = str(atk + bonus_atk)
+	combat.get_node("PlayerStats/Def").text = str(def + bonus_def)
+	combat.get_node("PlayerStats/Eva").text = str(eva + bonus_eva)
 	combat.get_node("PlayerStats/Health/Hp").text = str(hp)
 	
 	if turn && action != 2:
@@ -50,6 +61,7 @@ func _process(_delta):
 		$AnimationPlayer.play("Idle")
 		
 	if ![-1, 2].has(action) && turn:
+		reset_bonus()
 		combat.advanceturn()
 
 
@@ -66,7 +78,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	idle = true
 	if ["Attack1", "Attack2", "Attack3"].has(anim_name):
 		
-		
+		reset_bonus()
 		get_owner().advanceturn()
 
 
@@ -78,15 +90,13 @@ func _on_Button_pressed(extra_arg_0):
 	match extra_arg_0:
 		0:
 			if target != null:
+				target.self_modulate = Color(1, 1, 1)
 				action = combat.action.ATTACK
-				combat.attack(self, target)
 				
-				target = null
+				combat.attack(self, target)
 		1:
 			action = combat.action.DEFEND
 		2:
 			action = combat.action.EVADE
-		3:
-			pass
 	
-	target = null
+	target = null	

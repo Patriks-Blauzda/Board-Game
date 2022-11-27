@@ -49,4 +49,3 @@ func _get_path(previous : Vector2 = Vector2(0, 0), current : Vector2 = Vector2(0
 
 func _ready():
 	_get_path()
-	print(path[path.size() - 1])
