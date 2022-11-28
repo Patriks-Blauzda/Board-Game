@@ -34,7 +34,6 @@ func remove_card(child_index):
 func _ready():
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
-	add_card(3)
 	add_card(combat_cards[rng.randi_range(0,2)])
 	
 	hide()
