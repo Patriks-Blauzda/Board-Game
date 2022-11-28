@@ -50,6 +50,10 @@ func initialize_combat(playernode: Node, tileid: int):
 			target.in_combat = true
 			target.get_node("Dice").show()
 	
+	$EnemyStats/Atk.text = str(get_node("Enemy1").atk)
+	$EnemyStats/Def.text = str(get_node("Enemy1").def)
+	$EnemyStats/Eva.text = str(get_node("Enemy1").eva)
+	
 	
 	initialized = true
 
