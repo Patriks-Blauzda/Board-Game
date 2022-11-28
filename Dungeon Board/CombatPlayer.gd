@@ -34,6 +34,7 @@ func _process(_delta):
 	if hp < 1:
 		frame = 3
 		$AnimationPlayer.stop()
+		combat.get_node("Actions").hide()
 	
 	combat.get_node("PlayerStats/Atk").text = str(atk + bonus_atk)
 	combat.get_node("PlayerStats/Def").text = str(def + bonus_def)
