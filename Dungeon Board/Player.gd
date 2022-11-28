@@ -82,7 +82,11 @@ func move():
 			Global.in_combat = true
 		
 		
+		# Handles actions for different tiles (chest, spike trap, portal)
 		match tilemap.get_cellv(tilemap.path[tile_index]):
+			# Adds 1-2 random cards from all existing cards if player is holding less than 5 cards
+			# Max hand size is 5
+			# Player skips over the chest if hand is full
 			3:
 				var hand = camera.get_node("Hand")
 				if hand.get_child_count() < 5:
@@ -98,10 +102,12 @@ func move():
 					
 					movement_points = 0
 					tilemap.set_cellv(tilemap.path[tile_index], 0)
-				
+			
+			# Spike trap removes 1 health from the player
 			5:
 				hp -= 1
-				
+			
+			# Teleports player to other cell of same type (can only be two on the map)
 			6:
 				for i in tilemap.path:
 					if tilemap.get_cellv(i) == 6 && i != tilemap.path[tile_index]:
@@ -110,18 +116,21 @@ func move():
 						break
 
 
-
+# Plays after camera transition from/to combat
+# If all enemies are defeated, game is won and victory screen is shown
 func _on_AnimationPlayer_animation_finished(_anim_name):
 	if camera.position.y != 0:
 		get_owner().get_node("Combat").rolling = 240
 	else:
 		if tilemap.has_won():
 			camera.get_node("Win").show()
+			Global.game_active = false
 			
 
 
 func _physics_process(_delta):
 	if Global.game_active:
+		# If player is out of health, ends the game and displays death sprite
 		if hp < 1 || get_owner().get_node("Combat/Player").hp < 1:
 			camera.get_node("GameOver").show()
 			Global.game_active = false
@@ -133,6 +142,7 @@ func _physics_process(_delta):
 		$Anchor/TextureRect/Label.text = "MP: " + str(movement_points)
 		
 		
+		# Updates player stats every frame
 		$Anchor/PlayerStats/Atk.text = str(atk)
 		$Anchor/PlayerStats/Def.text = str(def)
 		$Anchor/PlayerStats/Eva.text = str(eva)
@@ -171,6 +181,7 @@ func _physics_process(_delta):
 				position = target
 				$Tween.stop_all()
 		
+		# Rolls dice every frame for a set period of time to decide the distance to move
 		elif rolling != 0:
 			if rolling > 40:
 				$Anchor/Sprite.frame = Global.roll() - 1
@@ -182,10 +193,12 @@ func _physics_process(_delta):
 		
 
 
+# Begins rolling dice for movement if currently not moving
 func _on_RollButton_pressed():
 	if movement_points == 0:
 		rolling = 80
 
 
+# Toggles card window
 func _on_Card_pressed():
 	camera.get_node("Hand").visible = !camera.get_node("Hand").visible

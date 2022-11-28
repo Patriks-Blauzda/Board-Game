@@ -47,6 +47,7 @@ func _get_path(previous : Vector2 = Vector2(0, 0), current : Vector2 = Vector2(0
 		current = next_tiles[0]
 
 
+# Checks entire board for tiles containing enemies, if none found, ends game in victory
 func has_won():
 	var status = true
 	for i in path:

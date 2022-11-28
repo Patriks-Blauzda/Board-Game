@@ -14,6 +14,8 @@ var rolling = 0
 var turnorder = []
 
 
+# Resets values upon combat beginning, transfers player stats from board to battle window,
+# decides the enemy amount and initializes them
 func initialize_combat(playernode: Node, tileid: int):
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
@@ -27,6 +29,8 @@ func initialize_combat(playernode: Node, tileid: int):
 	
 	$Player.reset_bonus()
 	
+	# Depending on tile, spawns enemies with randomized values
+	# Health is dependant on stats, i.e. if an enemy has 3 atk, 6 def and 6 eva, it has 1 hp
 	if tileid == 1:
 		var target = get_node("Enemy1")
 		
@@ -50,6 +54,7 @@ func initialize_combat(playernode: Node, tileid: int):
 			target.in_combat = true
 			target.get_node("Dice").show()
 	
+	# On combat start, displays enemy1 stats by default
 	$EnemyStats/Atk.text = str(get_node("Enemy1").atk)
 	$EnemyStats/Def.text = str(get_node("Enemy1").def)
 	$EnemyStats/Eva.text = str(get_node("Enemy1").eva)
@@ -58,6 +63,7 @@ func initialize_combat(playernode: Node, tileid: int):
 	initialized = true
 
 
+# On combat end, transfers player battle stats to board stats and resets all battle values
 func end_combat(playernode: Node):
 	$Player.turn = false
 	$Player/Dice.hide()
@@ -100,7 +106,8 @@ func attack(attacker: Node, target: Node):
 	$DmgNum/AttackerDice.frame = Global.roll() - 1
 	var dmg = attacker.atk + $DmgNum/AttackerDice.frame + 1
 	
-	
+	# Player attack animation handled  separately, since attack animations for targeting each enemy
+	# are different
 	if attacker.name == "Player":
 		attacker.get_node("AnimationPlayer").play("Attack" + target.name[target.name.length() - 1])
 		dmg += attacker.bonus_atk
@@ -109,6 +116,8 @@ func attack(attacker: Node, target: Node):
 	
 	$DmgNum.text = "Dealt " + str(dmg) + " Damage"
 	
+	
+	# Based on the target's action, rolls for def or evasion, or if idle/skipped turn, nothing
 	match target.action:
 		action.SKIP:
 			target.hp -= dmg
@@ -149,6 +158,9 @@ func attack(attacker: Node, target: Node):
 			$DmgNum.text += "\n" + str(dmg) + " damage vs " + str(eva) + " evasion"
 
 
+# Advances the turn based on turn order array and resets the selected action
+# If player has a card active, on player turn start either lowers its turn duration variable
+# or disables the stat bonuses
 func advanceturn():
 	for i in range(turnorder.size()):
 		if turnorder[i].turn:
@@ -170,6 +182,7 @@ func advanceturn():
 			break
 
 
+# Sorts turn order based on initiative in ascending order
 func sortinitiative():
 	var is_sorted = false
 	
@@ -186,6 +199,7 @@ func sortinitiative():
 				is_sorted = false
 
 
+# Returns the node path of the node if it's their turn
 func get_current_turn():
 	for i in turnorder:
 		if i.turn:
@@ -194,6 +208,7 @@ func get_current_turn():
 	return null
 
 
+# On ready, ends combat to make sure all values are their defaults
 func _ready():
 	for i in [$Player, $Enemy1, $Enemy2, $Enemy3]:
 			i.get_node("Dice").hide()
@@ -206,7 +221,7 @@ func _process(_delta):
 		if get_current_turn() != null:
 			$Turn.text = str(get_current_turn().get_name()) + "'s Turn"
 		
-		
+			# Stops enemies from carrying out their turn before animations are finished
 			var is_turn_finished = true
 			for i in turnorder:
 				if i.get_node("AnimationPlayer").current_animation != "Idle":
@@ -218,6 +233,7 @@ func _process(_delta):
 						get_current_turn().do_turn()
 						break
 			
+			# If the turnorder array only has one node (the player), ends combat and counts it as a win
 			if turnorder.size() == 1:
 				get_owner().get_node("Camera2D/StatUp").show()
 				$Player.reset_bonus()
@@ -225,6 +241,7 @@ func _process(_delta):
 				$Player.turn = false
 		
 		
+		# Rolls dice for initiative at combat start for player and every active enemy
 		if rolling != 0:
 			if rolling > 160:
 				for i in [$Player, $Enemy1, $Enemy2, $Enemy3]:
@@ -250,6 +267,8 @@ func _process(_delta):
 		$Actions.hide()
 
 
+# Upgrades specified stat or heals player by 5 after combat is finished
+# Returns player to board afterwards
 func _on_StatUp_pressed(extra_arg_0):
 	match extra_arg_0:
 		0:

@@ -1,5 +1,7 @@
 extends Sprite
 
+# Enemy1/2/3 are the same, except for animations, so only this file will be commented
+
 var idle = true
 
 var in_combat = true
@@ -14,7 +16,7 @@ var action = -1
 
 var turn = false
 
-
+# Carries out turn with probability based on own stats (defense and evasion)
 func do_turn():
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
@@ -36,7 +38,7 @@ func do_turn():
 	else:
 		get_owner().advanceturn()
 
-
+# If the attack animation is finished, advances turn order
 func _on_AnimationPlayer_animation_finished(anim_name):
 	idle = true
 	if anim_name == "Attack":
@@ -46,6 +48,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 func _process(_delta):
 	$Health/Hp.text = str(hp)
 	
+	# Makes sure enemy appears correctly
 	if in_combat:
 		if hp > 0:
 			show()

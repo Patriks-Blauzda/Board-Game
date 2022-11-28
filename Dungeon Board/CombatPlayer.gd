@@ -23,7 +23,7 @@ var turn = false
 var card_played = false
 var card_duration = 2
 
-
+# Reset bonus stats from cards, used in Combat.gd
 func reset_bonus():
 	bonus_atk = 0
 	bonus_def = 0
@@ -31,6 +31,7 @@ func reset_bonus():
 
 
 func _process(_delta):
+	# Shows death sprite and stops game on death
 	if hp < 1:
 		frame = 3
 		$AnimationPlayer.stop()
@@ -41,6 +42,7 @@ func _process(_delta):
 	combat.get_node("PlayerStats/Eva").text = str(eva + bonus_eva)
 	combat.get_node("PlayerStats/Health/Hp").text = str(hp)
 	
+	# Colors the enemies if player is moused over them or has targeted them
 	if turn && action != 2:
 		combat.get_node("Actions").show()
 		
@@ -60,9 +62,9 @@ func _process(_delta):
 		combat.get_node("Actions").hide()
 	
 	
+	# Colors target green for easier visibility of target
 	if target != null && target.idle && idle && turn:
 		target.self_modulate = Color(0.109804, 1, 0.219608)
-	
 	
 	if idle:
 		$AnimationPlayer.play("Idle")
@@ -71,6 +73,7 @@ func _process(_delta):
 		combat.advanceturn()
 
 
+# Checks if enemy has been moused over or clicked on
 func _on_Area2D_input_event(_viewport, event, _shape_idx, extra_arg_0):
 	if event is InputEventMouseMotion:
 		moused_over = extra_arg_0
@@ -80,6 +83,7 @@ func _on_Area2D_input_event(_viewport, event, _shape_idx, extra_arg_0):
 			target = combat.get_node("Enemy" + str(extra_arg_0))
 
 
+# If attack animation is finished, advances turn
 func _on_AnimationPlayer_animation_finished(anim_name):
 	idle = true
 	if ["Attack1", "Attack2", "Attack3"].has(anim_name):
@@ -91,6 +95,7 @@ func _on_Area2D_mouse_exited():
 	moused_over = -1
 
 
+# Handles player actions from the button display
 func _on_Button_pressed(extra_arg_0):
 	match extra_arg_0:
 		0:

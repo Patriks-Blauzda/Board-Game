@@ -13,9 +13,10 @@ const directions : Array = [Vector2(1, 0), Vector2(-1, 0), Vector2(0, -1), Vecto
 # Tiles that contain enemies
 const enemies : Array = [1, 2]
 
+# Counts carried out turns on the board
 var turn = 0
-var current_floor = 0
 
+# If true, game actions won't happen
 var in_combat = false
 
 
