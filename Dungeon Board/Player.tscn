@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://Select.gd" type="Script" id=2]
@@ -7,6 +7,10 @@
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
 region = Rect2( 397, 171, 45, 28 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 3 )
+region = Rect2( 541, 6, 130, 80 )
 
 [node name="Player" type="Sprite"]
 z_index = 2
@@ -30,3 +34,11 @@ script = ExtResource( 2 )
 scale = Vector2( 1.5, 1.5 )
 texture = SubResource( 1 )
 offset = Vector2( 0, 12 )
+
+[node name="Dir" type="Sprite" parent="."]
+scale = Vector2( 1.5, 1.5 )
+z_index = -2
+texture = SubResource( 2 )
+offset = Vector2( 0, 15 )
+hframes = 2
+vframes = 2

@@ -69,6 +69,16 @@ func move():
 	# As long as the player has moved, takes away one movement point
 	if tile_index != previous_index:
 		movement_points -= 1
+	
+		match tilemap.path[tile_index] - tilemap.path[previous_index]:
+			Vector2(1, 0):
+				$Dir.frame = 1
+			Vector2(-1, 0):
+				$Dir.frame = 2
+			Vector2(0, 1):
+				$Dir.frame = 3
+			Vector2(0, -1):
+				$Dir.frame = 0
 		
 		if Global.enemies.has(tilemap.get_cellv(tilemap.path[tile_index])):
 			movement_points = 0
