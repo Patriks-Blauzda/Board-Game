@@ -43,7 +43,7 @@ func _process(_delta):
 	combat.get_node("PlayerStats/Health/Hp").text = str(hp)
 	
 	# Colors the enemies if player is moused over them or has targeted them
-	if turn && action != 2:
+	if turn && action != 2 && hp > 1:
 		combat.get_node("Actions").show()
 		
 		for i in range(1, 4):
