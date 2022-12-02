@@ -1,10 +1,15 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
+[ext_resource path="res://buttons-pressed.png" type="Texture" id=1]
 [ext_resource path="res://TileSet.png" type="Texture" id=2]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
-region = Rect2( 411, 272, 95, 123 )
+region = Rect2( 126, 272, 95, 123 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 134, 0, 95, 123 )
 
 [node name="Card" type="TextureButton"]
 margin_right = 140.0
@@ -12,5 +17,6 @@ margin_bottom = 182.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = SubResource( 1 )
+texture_hover = SubResource( 2 )
 expand = true
 stretch_mode = 5

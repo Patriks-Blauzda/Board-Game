@@ -16,8 +16,10 @@ func add_card(card_index):
 	var card_self = card
 	
 	card.texture_normal = card.texture_normal.duplicate()
+	card.texture_hover = card.texture_hover.duplicate()
 	
 	card.texture_normal.region.position.x = clamp(126 + (95 * card_index), 126, 506)
+	card.texture_hover.region.position.x = clamp(134 + (95 * card_index), 134, 514)
 	
 	add_child(card)
 	card.connect("pressed", self, "_on_Card_Pressed", [card_index, card_self])

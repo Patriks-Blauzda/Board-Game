@@ -22,6 +22,7 @@ var card_played = false
 func _ready():
 	position = tilemap.map_to_world(tilemap.path[tile_index]) + Vector2(250, 300)
 	Global.game_active = true
+	$Dir.hide()
 
 
 # Updates the player's target position
@@ -167,8 +168,8 @@ func _physics_process(_delta):
 			get_owner().get_node("Combat/Actions/Card").disabled = true
 		
 		
-		# Will be updated when other parts of the game are done
 		if movement_points > 0 && position == tilemap.map_to_world(tilemap.path[tile_index]) && rolling == 0:
+			$Dir.show()
 			move()
 			
 			if movement_points == 0:
@@ -200,7 +201,6 @@ func _physics_process(_delta):
 			
 			if rolling == 40:
 				movement_points = $Anchor/Sprite.frame + 1 + mp_bonus
-		
 
 
 # Begins rolling dice for movement if currently not moving
